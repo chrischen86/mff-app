@@ -9,8 +9,11 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  IconButton,
 } from '@material-ui/core';
+import FilterIcon from '@material-ui/icons/FilterList';
 import { makeStyles } from '@material-ui/core/styles';
+import FilterSection from './FilterSection';
 import React from 'react';
 
 const useStyles = makeStyles({
@@ -33,16 +36,24 @@ interface BonusesCount {
   characterName: string;
   count: number;
 }
-interface TopBonusesProps {
+interface RankTableCardProps {
   bonuses: BonusesCount[];
 }
 
-const TopBonusesCard = (data: TopBonusesProps) => {
+const RankTableCard = (data: RankTableCardProps) => {
   const classes = useStyles();
   return (
     <>
       <Card>
-        <CardHeader title="Top Character Bonuses" />
+        <CardHeader
+          title="Rank"
+          action={
+            <IconButton>
+              <FilterIcon />
+            </IconButton>
+          }
+        />
+        <FilterSection />
         <CardContent className={classes.cardContent}>
           <TableContainer component={Paper} className={classes.tableContainer}>
             <Table className={classes.table} stickyHeader>
@@ -70,4 +81,4 @@ const TopBonusesCard = (data: TopBonusesProps) => {
   );
 };
 
-export default TopBonusesCard;
+export default RankTableCard;
