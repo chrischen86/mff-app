@@ -1,46 +1,40 @@
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from '@material-ui/core';
+import { Card, CardContent, CardHeader } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import Skeleton from '@material-ui/lab/Skeleton';
 import React from 'react';
 import { SelectedCharacterBonus } from '../types';
 import useRankTableData from './hooks/useRankTableData';
-import Skeleton from '@material-ui/lab/Skeleton';
+import RankTable from './RankTable';
 
 const useStyles = makeStyles({
-  table: {
-    minWidth: 250,
-  },
-  tableContainer: {
-    height: '30em',
-    width: '100%',
-  },
   cardContent: {
     padding: 0,
     '&:last-child': {
       paddingBottom: 0,
     },
   },
+  left: {
+    float: 'left',
+  },
+  right: {
+    float: 'right',
+    marginRight: '1em',
+  },
+  contentContainer: {
+    paddingLeft: '1em',
+  },
 });
 
 const RankTableCard = ({
   data,
-  isLoading = true,
+  isLoading = false,
 }: {
   data: SelectedCharacterBonus[];
   isLoading?: boolean;
 }) => {
   const rankedData = useRankTableData(data);
   const classes = useStyles();
+
   return (
     <>
       <Card>
@@ -49,7 +43,7 @@ const RankTableCard = ({
             isLoading ? (
               <Skeleton
                 animation="wave"
-                height={10}
+                height={30}
                 width="80%"
                 style={{ marginBottom: 6 }}
               />
@@ -59,26 +53,29 @@ const RankTableCard = ({
           }
         />
         <CardContent className={classes.cardContent}>
-          <TableContainer component={Paper} className={classes.tableContainer}>
-            <Table className={classes.table} stickyHeader>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Character</TableCell>
-                  <TableCell align="right"># of stages</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {rankedData.map((row) => (
-                  <TableRow key={row.characterName}>
-                    <TableCell component="th" scope="row">
-                      {row.characterName}
-                    </TableCell>
-                    <TableCell align="right">{row.count}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+          {isLoading && (
+            <div className={classes.contentContainer}>
+              {[...Array(20)].map((_val, index) => (
+                <React.Fragment key={index}>
+                  <Skeleton
+                    animation="wave"
+                    height={10}
+                    style={{ marginBottom: 6 }}
+                    width="50%"
+                    className={classes.left}
+                  ></Skeleton>
+                  <Skeleton
+                    animation="wave"
+                    height={10}
+                    width="10%"
+                    className={classes.right}
+                  />
+                  <br />
+                </React.Fragment>
+              ))}
+            </div>
+          )}
+          {!isLoading && <RankTable rankedData={rankedData} />}
         </CardContent>
       </Card>
     </>

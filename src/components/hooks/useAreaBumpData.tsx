@@ -39,6 +39,10 @@ const prepare = (data: SelectedCharacterBonus[]): AreaBumpInputSerie[] => {
 const useAreaBumpData = (
   data: SelectedCharacterBonus[]
 ): AreaBumpInputSerie[] => {
+  if (data === undefined) {
+    return [];
+  }
+
   const areaBumpData = prepare(data);
   return areaBumpData;
 };

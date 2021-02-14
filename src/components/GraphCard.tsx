@@ -1,63 +1,40 @@
 import { Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import Skeleton from '@material-ui/lab/Skeleton';
 import React from 'react';
-import { ResponsiveAreaBump } from '@nivo/bump';
 import { SelectedCharacterBonus } from '../types';
+import AreaBumpChart from './AreaBumpChart';
 import useAreaBumpData from './hooks/useAreaBumpData';
-import moment from 'moment';
 
 const useStyles = makeStyles({
-  table: {
-    minWidth: 250,
-  },
-  tableContainer: {
+  graphContainer: {
     height: 400,
     width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  cardContent: {
-    padding: 0,
-    '&:last-child': {
-      paddingBottom: 0,
-    },
+  graphSkeleteon: {
+    transform: 'scale(1,1)',
+    height: '90%',
+    width: '95%',
   },
 });
 
-const GraphCard = ({ data }: { data: SelectedCharacterBonus[] }) => {
+const GraphCard = ({
+  data,
+  isLoading = false,
+}: {
+  data: SelectedCharacterBonus[];
+  isLoading?: boolean;
+}) => {
   const areaBumpData = useAreaBumpData(data);
   const classes = useStyles();
 
   return (
-    <Paper className={classes.tableContainer}>
-      <ResponsiveAreaBump
-        data={areaBumpData}
-        margin={{ top: 40, right: 100, bottom: 40, left: 100 }}
-        spacing={8}
-        colors={{ scheme: 'nivo' }}
-        blendMode="multiply"
-        startLabel="id"
-        axisTop={{
-          tickSize: 5,
-          tickPadding: 5,
-          tickRotation: 0,
-          legend: '',
-          legendPosition: 'middle',
-          legendOffset: -36,
-          format: function (value: string) {
-            return moment(value).format('MMM YYYY');
-          },
-        }}
-        axisBottom={{
-          tickSize: 5,
-          tickPadding: 5,
-          tickRotation: 0,
-          legend: '',
-          legendPosition: 'middle',
-          legendOffset: 32,
-          format: function (value: string) {
-            return moment(value).format('MMM YYYY');
-          },
-        }}
-      />
+    <Paper className={classes.graphContainer}>
+      {isLoading && <Skeleton className={classes.graphSkeleteon} />}
+      {!isLoading && <AreaBumpChart areaBumpData={areaBumpData} />}
     </Paper>
   );
 };

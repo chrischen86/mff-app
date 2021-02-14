@@ -22,9 +22,13 @@ const filterData = (
 };
 
 const useFilteredData = (
-  data: SelectedCharacterBonus[],
+  data?: SelectedCharacterBonus[],
   filters?: Filter[]
 ): SelectedCharacterBonus[] => {
+  if (data === undefined) {
+    return [];
+  }
+
   if (filters === undefined || filters.length <= 0) {
     return data;
   }

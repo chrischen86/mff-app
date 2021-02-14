@@ -22,13 +22,10 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const HomePage = () => {
   const { state: filterContext } = React.useContext(FilterContext);
-  const { status, data, error, isLoading, isFetching } = useCharacterBonus();
+  const { status, data, error, isLoading } = useCharacterBonus();
   const filteredData = useFilteredData(data, filterContext.filters);
   const classes = useStyles();
 
-  if (isLoading) {
-    return <div>Loading... </div>;
-  }
   return (
     <>
       <SiteAppBar />
@@ -38,10 +35,10 @@ const HomePage = () => {
             <FilterSection filters={filters} />
           </Grid>
           <Grid item xs={12} md={3}>
-            <RankTableCard data={filteredData} />
+            <RankTableCard data={filteredData} isLoading={isLoading} />
           </Grid>
           <Grid item xs={12} md={9}>
-            <GraphCard data={filteredData} />
+            <GraphCard data={filteredData} isLoading={isLoading} />
           </Grid>
         </Grid>
       </div>

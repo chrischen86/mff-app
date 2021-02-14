@@ -15,6 +15,10 @@ const prepare = (data: SelectedCharacterBonus[]): BonusesCount[] => {
 };
 
 const useRankTableData = (data: SelectedCharacterBonus[]): BonusesCount[] => {
+  if (data === undefined) {
+    return [];
+  }
+
   const rankData = prepare(data);
   return rankData;
 };
