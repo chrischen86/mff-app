@@ -14,7 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import { FilterContext } from '../context/filterContext';
 import { SelectedCharacterBonus } from '../types';
-import { useRankTableData } from './hooks/rankTableCardReducer';
+import { useRankTableData } from './hooks/useRankTableData';
 
 const useStyles = makeStyles({
   table: {

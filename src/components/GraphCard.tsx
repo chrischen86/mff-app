@@ -5,6 +5,7 @@ import { ResponsiveAreaBump } from '@nivo/bump';
 import { SelectedCharacterBonus } from '../types';
 import graphCardReducer from './hooks/graphCardReducer';
 import { FilterContext } from '../context/filterContext';
+import moment from 'moment';
 
 const useStyles = makeStyles({
   table: {
@@ -48,6 +49,9 @@ const GraphCard = ({ data }: { data: SelectedCharacterBonus[] }) => {
           legend: '',
           legendPosition: 'middle',
           legendOffset: -36,
+          format: function (value: string) {
+            return moment(value).format('MMM YYYY');
+          },
         }}
         axisBottom={{
           tickSize: 5,
@@ -56,6 +60,9 @@ const GraphCard = ({ data }: { data: SelectedCharacterBonus[] }) => {
           legend: '',
           legendPosition: 'middle',
           legendOffset: 32,
+          format: function (value: string) {
+            return moment(value).format('MMM YYYY');
+          },
         }}
       />
     </Paper>
