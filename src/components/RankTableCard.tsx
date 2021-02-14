@@ -9,19 +9,19 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  IconButton,
 } from '@material-ui/core';
-import FilterIcon from '@material-ui/icons/FilterList';
 import { makeStyles } from '@material-ui/core/styles';
-import FilterSection from './FilterSection';
 import React from 'react';
+import { FilterContext } from '../context/filterContext';
+import { SelectedCharacterBonus } from '../types';
+import { useRankTableData } from './hooks/rankTableCardReducer';
 
 const useStyles = makeStyles({
   table: {
     minWidth: 250,
   },
   tableContainer: {
-    height: 400,
+    height: '30em',
     width: '100%',
   },
   cardContent: {
@@ -32,28 +32,20 @@ const useStyles = makeStyles({
   },
 });
 
-interface BonusesCount {
-  characterName: string;
-  count: number;
-}
-interface RankTableCardProps {
-  bonuses: BonusesCount[];
-}
+const RankTableCard = ({ data }: { data: SelectedCharacterBonus[] }) => {
+  const { data: rankedData, applyFilter } = useRankTableData();
+  const { state: filterState } = React.useContext(FilterContext);
 
-const RankTableCard = (data: RankTableCardProps) => {
+  React.useEffect(() => {
+    applyFilter(data, filterState.filters);
+  }, [applyFilter, data, filterState.filters]);
+
   const classes = useStyles();
+
   return (
     <>
       <Card>
-        <CardHeader
-          title="Rank"
-          action={
-            <IconButton>
-              <FilterIcon />
-            </IconButton>
-          }
-        />
-        <FilterSection />
+        <CardHeader title="Rank" />
         <CardContent className={classes.cardContent}>
           <TableContainer component={Paper} className={classes.tableContainer}>
             <Table className={classes.table} stickyHeader>
@@ -64,7 +56,7 @@ const RankTableCard = (data: RankTableCardProps) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {data.bonuses.map((row) => (
+                {rankedData.map((row) => (
                   <TableRow key={row.characterName}>
                     <TableCell component="th" scope="row">
                       {row.characterName}

@@ -1,5 +1,9 @@
 import { SelectedCharacterBonus } from '../types';
 
 export interface Filter {
-  predicate: (term: SelectedCharacterBonus) => boolean;
+  id: string;
+  label: string;
+  enabled: boolean;
+  canDelete?: boolean;
+  predicate: (term: SelectedCharacterBonus, data?: any) => boolean;
 }

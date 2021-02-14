@@ -35,7 +35,7 @@ const SiteAppBar = () => {
           <MenuIcon />
         </IconButton>
         <Typography variant="h6" className={classes.title}>
-          News
+          MFF App
         </Typography>
         <Button color="inherit">Login</Button>
       </Toolbar>
