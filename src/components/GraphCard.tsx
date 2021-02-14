@@ -3,8 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import { ResponsiveAreaBump } from '@nivo/bump';
 import { SelectedCharacterBonus } from '../types';
-import graphCardReducer from './hooks/graphCardReducer';
-import { FilterContext } from '../context/filterContext';
+import useAreaBumpData from './hooks/useAreaBumpData';
 import moment from 'moment';
 
 const useStyles = makeStyles({
@@ -24,19 +23,13 @@ const useStyles = makeStyles({
 });
 
 const GraphCard = ({ data }: { data: SelectedCharacterBonus[] }) => {
-  const [state, dispatch] = React.useReducer(graphCardReducer, { data: [] });
-  const { state: filterState } = React.useContext(FilterContext);
-
-  React.useEffect(() => {
-    dispatch({ type: 'filter', rawData: data, filters: filterState.filters });
-  }, [data, filterState.filters]);
-
+  const areaBumpData = useAreaBumpData(data);
   const classes = useStyles();
 
   return (
     <Paper className={classes.tableContainer}>
       <ResponsiveAreaBump
-        data={state.data}
+        data={areaBumpData}
         margin={{ top: 40, right: 100, bottom: 40, left: 100 }}
         spacing={8}
         colors={{ scheme: 'nivo' }}

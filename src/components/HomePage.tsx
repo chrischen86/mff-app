@@ -1,13 +1,15 @@
 import { Grid } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import React from 'react';
-import { useQuery } from 'react-query';
-import FilterSection from './FilterSection';
-import GraphCard from './GraphCard';
-import RankTableCard from './RankTableCard';
-import SiteAppBar from './SiteAppBar';
+import { FilterContext } from '../context/filterContext';
 //import data from './__mocks__/data.json';
 import filters from '../filters';
+import FilterSection from './FilterSection';
+import GraphCard from './GraphCard';
+import useCharacterBonus from './hooks/useCharacterBonus';
+import useFilteredData from './hooks/useFilteredData';
+import RankTableCard from './RankTableCard';
+import SiteAppBar from './SiteAppBar';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -18,27 +20,15 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const useCharacterBonus = () => {
-  return useQuery(
-    'characterBonus',
-    async () => {
-      const res = await fetch(
-        'https://chrischen86.github.io/mff-data/selectedcharacterbonus.json'
-      );
-      return res.json();
-    },
-    { notifyOnChangeProps: ['data', 'error'] }
-  );
-};
-
 const HomePage = () => {
+  const { state: filterContext } = React.useContext(FilterContext);
   const { status, data, error, isLoading, isFetching } = useCharacterBonus();
+  const filteredData = useFilteredData(data, filterContext.filters);
   const classes = useStyles();
 
   if (isLoading) {
     return <div>Loading... </div>;
   }
-
   return (
     <>
       <SiteAppBar />
@@ -48,10 +38,10 @@ const HomePage = () => {
             <FilterSection filters={filters} />
           </Grid>
           <Grid item xs={12} md={3}>
-            <RankTableCard data={data} />
+            <RankTableCard data={filteredData} />
           </Grid>
           <Grid item xs={12} md={9}>
-            <GraphCard data={data} />
+            <GraphCard data={filteredData} />
           </Grid>
         </Grid>
       </div>

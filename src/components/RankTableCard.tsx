@@ -12,9 +12,9 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
-import { FilterContext } from '../context/filterContext';
 import { SelectedCharacterBonus } from '../types';
-import { useRankTableData } from './hooks/useRankTableData';
+import useRankTableData from './hooks/useRankTableData';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 const useStyles = makeStyles({
   table: {
@@ -32,20 +32,32 @@ const useStyles = makeStyles({
   },
 });
 
-const RankTableCard = ({ data }: { data: SelectedCharacterBonus[] }) => {
-  const { data: rankedData, applyFilter } = useRankTableData();
-  const { state: filterState } = React.useContext(FilterContext);
-
-  React.useEffect(() => {
-    applyFilter(data, filterState.filters);
-  }, [applyFilter, data, filterState.filters]);
-
+const RankTableCard = ({
+  data,
+  isLoading = true,
+}: {
+  data: SelectedCharacterBonus[];
+  isLoading?: boolean;
+}) => {
+  const rankedData = useRankTableData(data);
   const classes = useStyles();
-
   return (
     <>
       <Card>
-        <CardHeader title="Rank" />
+        <CardHeader
+          title={
+            isLoading ? (
+              <Skeleton
+                animation="wave"
+                height={10}
+                width="80%"
+                style={{ marginBottom: 6 }}
+              />
+            ) : (
+              'Rank'
+            )
+          }
+        />
         <CardContent className={classes.cardContent}>
           <TableContainer component={Paper} className={classes.tableContainer}>
             <Table className={classes.table} stickyHeader>
