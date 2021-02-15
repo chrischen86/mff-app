@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const HomePage = () => {
   const { state: filterContext } = React.useContext(FilterContext);
-  const { status, data, error, isLoading } = useCharacterBonus();
+  const { data, isLoading } = useCharacterBonus();
   const filteredData = useFilteredData(data, filterContext.filters);
   const classes = useStyles();
 
