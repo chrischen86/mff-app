@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Skeleton from '@material-ui/lab/Skeleton';
 import React from 'react';
+import { MetadataContext } from '../context/metadataContext';
 import { SelectedCharacterBonus } from '../types';
 import useRankTableData from './hooks/useRankTableData';
 import RankTable from './RankTable';
@@ -32,7 +33,8 @@ const RankTableCard = ({
   data: SelectedCharacterBonus[];
   isLoading?: boolean;
 }) => {
-  const rankedData = useRankTableData(data);
+  const { state } = React.useContext(MetadataContext);
+  const rankedData = useRankTableData(data, state);
   const classes = useStyles();
 
   return (
