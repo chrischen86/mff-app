@@ -8,6 +8,7 @@ import {
   Button,
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
+import GitHubIcon from '@material-ui/icons/GitHub';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,7 +38,13 @@ const SiteAppBar = () => {
         <Typography variant="h6" className={classes.title}>
           MFF App
         </Typography>
-        <Button color="inherit">Login</Button>
+        <IconButton
+          color="inherit"
+          target="_blank"
+          href={'https://github.com/chrischen86/mff-app'}
+        >
+          <GitHubIcon />
+        </IconButton>
       </Toolbar>
     </AppBar>
   );
