@@ -8,6 +8,9 @@ import useRankTableData from './hooks/useRankTableData';
 import RankTable from './RankTable';
 
 const useStyles = makeStyles({
+  card: {
+    height: '65vh',
+  },
   cardContent: {
     padding: 0,
     '&:last-child': {
@@ -39,7 +42,7 @@ const RankTableCard = ({
 
   return (
     <>
-      <Card>
+      <Card className={classes.card}>
         <CardHeader
           title={
             isLoading ? (

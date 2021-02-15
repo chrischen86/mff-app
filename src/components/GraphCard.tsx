@@ -12,7 +12,7 @@ import TreemapChart from './TreemapChart';
 
 const useStyles = makeStyles({
   graphContainer: {
-    height: 400,
+    height: '65vh',
     width: '100%',
     display: 'flex',
     justifyContent: 'center',

@@ -16,7 +16,7 @@ const useStyles = makeStyles({
     minWidth: 250,
   },
   tableContainer: {
-    height: '30em',
+    height: '65vh',
     width: '100%',
   },
 });
