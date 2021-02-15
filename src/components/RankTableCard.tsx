@@ -50,7 +50,7 @@ const RankTableCard = ({
                 style={{ marginBottom: 6 }}
               />
             ) : (
-              'Rank'
+              'Story Mode Rank'
             )
           }
         />

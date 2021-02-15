@@ -4,7 +4,7 @@ import { Filter } from './types';
 const dimensionalClashdFilter: Filter = {
   id: 'dimensionalClash',
   label: 'Dimensional Clash',
-  enabled: true,
+  enabled: false,
   canDelete: true,
   predicate: (term: SelectedCharacterBonus) => {
     return term.stageId <= 20;

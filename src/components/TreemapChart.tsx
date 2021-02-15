@@ -2,7 +2,7 @@ import React from 'react';
 import { ResponsiveTreeMap } from '@nivo/treemap';
 import { TreemapItem } from './types';
 
-const TreemapChart = ({ data }: { data: TreemapItem }) => {
+const TreemapChart = React.memo(({ data }: { data: TreemapItem }) => {
   return (
     <ResponsiveTreeMap
       data={data}
@@ -14,6 +14,6 @@ const TreemapChart = ({ data }: { data: TreemapItem }) => {
       labelTextColor="black"
     />
   );
-};
+});
 
 export default TreemapChart;
