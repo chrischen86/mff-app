@@ -23,5 +23,5 @@ export interface Metadata {
   stages: Stage[];
   characters: Character[];
   stories: string[];
-  currentMonth: string;
+  currentMonth?: string;
 }

@@ -5,7 +5,7 @@ const initialState: Metadata = {
   stages: [],
   characters: [],
   stories: [],
-  currentMonth: '',
+  currentMonth: undefined,
 };
 
 type MetadataState = typeof initialState;
@@ -27,14 +27,18 @@ const reducer = (state: MetadataState, action: Action): MetadataState => {
         characters: action.characters,
       };
     case 'calculateLastMonth': {
+      if (action.data === undefined) {
+        return state;
+      }
       const distinctDates = action.data
         .filter((d, i, arr) => arr.findIndex((t) => t.date === d.date) === i)
         .map((d) => new Date(d.date))
         .sort();
 
-      console.log(distinctDates);
-
-      return state;
+      return {
+        ...state,
+        currentMonth: distinctDates[distinctDates.length - 1].toISOString(),
+      };
     }
 
     default:

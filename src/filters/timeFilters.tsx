@@ -1,4 +1,4 @@
-import { SelectedCharacterBonus } from '../types';
+import { Metadata, SelectedCharacterBonus } from '../types';
 import { Filter } from './types';
 
 const currentMonthFilter: Filter = {
@@ -6,10 +6,14 @@ const currentMonthFilter: Filter = {
   label: 'Current Month',
   enabled: true,
   canDelete: false,
-  predicate: (term: SelectedCharacterBonus) => {
+  predicate: (term: SelectedCharacterBonus, metadata: Metadata) => {
     const theDate = new Date(term.date);
-    const today = new Date();
-    return theDate.getMonth() === today.getMonth();
+    const current =
+      metadata.currentMonth === undefined
+        ? new Date()
+        : new Date(metadata.currentMonth);
+
+    return theDate.getMonth() === current.getMonth();
   },
 };
 export { currentMonthFilter };

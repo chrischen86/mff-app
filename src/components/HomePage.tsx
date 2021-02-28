@@ -43,6 +43,10 @@ const HomePage = () => {
   const classes = useStyles();
 
   React.useEffect(() => {
+    dispatch({ type: 'calculateLastMonth', data });
+  }, [dispatch, data]);
+
+  React.useEffect(() => {
     if (!isStageMetadataLoading) {
       dispatch({ type: 'setStages', stages: stageMetadata });
     }
