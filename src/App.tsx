@@ -1,10 +1,10 @@
-import { ThemeProvider } from '@material-ui/core/styles';
 import React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import HomePage from './HomePage';
-import FilterProvider from '../context/filterContext';
-import MetadataProvider from '../context/metadataContext';
-import theme from '../theme';
+import HomePage from './components/HomePage';
+import FilterProvider from './context/filterContext';
+import MetadataProvider from './context/metadataContext';
+import { ThemeProvider } from '@material-ui/core/styles';
+import theme from './theme';
 
 const queryClient = new QueryClient();
 
