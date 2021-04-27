@@ -19,9 +19,9 @@ const AreaBumpChart = ({
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: '',
+        legend: 'Top 10 Ranking Over Time',
         legendPosition: 'middle',
-        legendOffset: -36,
+        legendOffset: -28,
         format: function (value: string) {
           return moment(value).format('MMM YYYY');
         },
