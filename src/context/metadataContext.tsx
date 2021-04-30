@@ -33,7 +33,9 @@ const reducer = (state: MetadataState, action: Action): MetadataState => {
       const distinctDates = action.data
         .filter((d, i, arr) => arr.findIndex((t) => t.date === d.date) === i)
         .map((d) => new Date(d.date))
-        .sort();
+        .sort((a, b) => {
+          return a.getTime() - b.getTime();
+        });
 
       return {
         ...state,
