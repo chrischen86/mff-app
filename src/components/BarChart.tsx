@@ -34,14 +34,13 @@ const BarChart = React.memo(({ data }: { data: BarItem[] }) => {
         },
       }}
       axisBottom={{
-        tickValues: 3,
         tickRotation: -45,
-        legendOffset: -80,
-        legendPosition: 'start',
+        tickPadding: 10,
       }}
       valueScale={{ type: 'linear' }}
       labelSkipWidth={12}
       labelSkipHeight={12}
+      labelTextColor="white"
       colors={getColour}
     />
   );
