@@ -43,20 +43,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FilterSection = ({
-  visible = false,
-  filters = [],
-}: {
-  visible?: boolean;
-  filters?: Filter[];
-}) => {
+const FilterSection = ({ visible = false }: { visible?: boolean }) => {
   const [isVisible, setIsVisible] = React.useState(visible);
   const { state, dispatch } = React.useContext(FilterContext);
   const classes = useStyles();
-
-  React.useEffect(() => {
-    dispatch({ type: 'add', filters });
-  }, [dispatch, filters]);
 
   const handleDelete = (chipId: string) => {
     dispatch({
@@ -109,6 +99,9 @@ const FilterSection = ({
             onClick={isVisible ? () => handleClick(filter) : undefined}
             color={filter.enabled ? 'primary' : undefined}
             size={isVisible ? 'medium' : 'small'}
+            style={{
+              backgroundColor: filter.enabled ? filter.colour : undefined,
+            }}
           />
         );
       })}

@@ -1,6 +1,7 @@
 import { SelectedCharacterBonus } from '../../types';
 import { AreaBumpInputSerie } from '@nivo/bump';
 import useRankTableData from './useRankTableData';
+import React from 'react';
 
 const prepare = (data: SelectedCharacterBonus[]): AreaBumpInputSerie[] => {
   const uniqueDates = Array.from(new Set(data.map((d) => d.date)));
@@ -45,17 +46,19 @@ const prepare = (data: SelectedCharacterBonus[]): AreaBumpInputSerie[] => {
 const useAreaBumpData = (
   data: SelectedCharacterBonus[]
 ): AreaBumpInputSerie[] => {
+  const [areaBumpData, setAreaBumpData] = React.useState<AreaBumpInputSerie[]>(
+    []
+  );
   const rankData = useRankTableData(data);
 
-  if (data === undefined) {
-    return [];
-  }
-
-  const top10 = rankData.slice(0, 10);
-  const areaBumpData = prepare(data);
-  return areaBumpData.filter((d) =>
-    top10.find((t) => t.characterName === d.id)
-  );
+  React.useEffect(() => {
+    const top10 = rankData.slice(0, 10);
+    const areaData = prepare(data);
+    setAreaBumpData(
+      areaData.filter((d) => top10.find((t) => t.characterName === d.id))
+    );
+  }, [data, rankData]);
+  return areaBumpData;
 };
 
 export default useAreaBumpData;

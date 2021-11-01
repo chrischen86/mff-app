@@ -6,13 +6,13 @@ import { FilterContext } from '../context/filterContext';
 import { MetadataContext } from '../context/metadataContext';
 import { SelectedCharacterBonus } from '../types';
 import AreaBumpChart from './AreaBumpChart';
+import BarChart from './BarChart';
 import useAreaBumpData from './hooks/useAreaBumpData';
-import useTreeMapData from './hooks/useTreeMapData';
-import TreemapChart from './TreemapChart';
+import useBarChartData from './hooks/useBarChartData';
 
 const useStyles = makeStyles({
   graphContainer: {
-    height: '65vh',
+    height: '75vh',
     width: '100%',
     display: 'flex',
     justifyContent: 'center',
@@ -35,7 +35,7 @@ const GraphCard = ({
   const { state: metadataContext } = React.useContext(MetadataContext);
   const { state: filterContext } = React.useContext(FilterContext);
   const areaBumpData = useAreaBumpData(data);
-  const treeMapData = useTreeMapData(data, metadataContext);
+  const barData = useBarChartData(data, metadataContext);
   const classes = useStyles();
 
   const showTreemap =
@@ -48,7 +48,7 @@ const GraphCard = ({
       {!isLoading && !showTreemap && (
         <AreaBumpChart areaBumpData={areaBumpData} />
       )}
-      {!isLoading && showTreemap && <TreemapChart data={treeMapData} />}
+      {!isLoading && showTreemap && <BarChart data={barData} />}
     </Paper>
   );
 };

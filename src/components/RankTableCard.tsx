@@ -9,7 +9,7 @@ import RankTable from './RankTable';
 
 const useStyles = makeStyles({
   card: {
-    height: '65vh',
+    //height: '65vh',
   },
   cardContent: {
     padding: 0,
