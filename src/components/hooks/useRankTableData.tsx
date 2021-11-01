@@ -1,3 +1,4 @@
+import React from 'react';
 import { Metadata, SelectedCharacterBonus } from '../../types';
 import { BonusesCount } from '../types';
 
@@ -28,11 +29,11 @@ const useRankTableData = (
   data: SelectedCharacterBonus[],
   metadata?: Metadata
 ): BonusesCount[] => {
-  if (data === undefined) {
-    return [];
-  }
+  const [rankData, setRankData] = React.useState<BonusesCount[]>([]);
 
-  const rankData = prepare(data, metadata);
+  React.useEffect(() => {
+    setRankData(prepare(data, metadata));
+  }, [data, metadata]);
   return rankData;
 };
 

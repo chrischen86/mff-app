@@ -18,6 +18,11 @@ export interface TreemapItem {
   children?: TreemapItem[];
 }
 
+export interface BarItem {
+  characterName: string;
+  [key: string]: string | number;
+}
+
 export interface TreemapData {
   root: TreemapItem;
 }

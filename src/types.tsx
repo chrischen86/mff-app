@@ -24,4 +24,12 @@ export interface Metadata {
   characters: Character[];
   stories: string[];
   currentMonth?: string;
+  fragments: StoryFragment[];
+}
+
+export interface StoryFragment {
+  id: number;
+  stageIds: number[];
+  fragment: number;
+  story: string;
 }

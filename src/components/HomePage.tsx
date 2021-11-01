@@ -4,12 +4,13 @@ import React from 'react';
 import { FilterContext } from '../context/filterContext';
 import { MetadataContext } from '../context/metadataContext';
 //import data from './__mocks__/data.json';
-import filters from '../filters';
+import filters, { createFragmentFilters } from '../filters';
 import FilterSection from './FilterSection';
 import GraphCard from './GraphCard';
 import useCharacterBonus from './hooks/useCharacterBonus';
 import useCharactersMetadata from './hooks/useCharactersMetadata';
 import useFilteredData from './hooks/useFilteredData';
+import useFragmentMetadata from './hooks/useFragmentsMetadata';
 import useStagesMetadata from './hooks/useStagesMetadata';
 import RankTableCard from './RankTableCard';
 import SiteAppBar from './SiteAppBar';
@@ -26,17 +27,16 @@ const useStyles = makeStyles((theme: Theme) =>
 const HomePage = () => {
   //Contexts
   const { dispatch } = React.useContext(MetadataContext);
-  const { state: filterContext } = React.useContext(FilterContext);
+  const { dispatch: filterDispatch, state: filterContext } =
+    React.useContext(FilterContext);
 
   //Fetch data
-  const {
-    data: stageMetadata,
-    isLoading: isStageMetadataLoading,
-  } = useStagesMetadata();
-  const {
-    data: characterMetadata,
-    isLoading: isCharacterMetadataLoading,
-  } = useCharactersMetadata();
+  const { data: stageMetadata, isLoading: isStageMetadataLoading } =
+    useStagesMetadata();
+  const { data: characterMetadata, isLoading: isCharacterMetadataLoading } =
+    useCharactersMetadata();
+  const { data: fragmentMetadata, isLoading: isFragmentMetadataLoading } =
+    useFragmentMetadata();
   const { data, isLoading: isDataLoading } = useCharacterBonus();
 
   const filteredData = useFilteredData(data, filterContext.filters);
@@ -54,16 +54,34 @@ const HomePage = () => {
     if (!isCharacterMetadataLoading) {
       dispatch({ type: 'setCharacters', characters: characterMetadata });
     }
+
+    if (!isFragmentMetadataLoading && fragmentMetadata) {
+      dispatch({ type: 'setFragments', fragments: fragmentMetadata });
+    }
   }, [
     dispatch,
     characterMetadata,
     isCharacterMetadataLoading,
     isStageMetadataLoading,
+    isFragmentMetadataLoading,
     stageMetadata,
+    fragmentMetadata,
   ]);
 
+  React.useEffect(() => {
+    const fragmentFilters = createFragmentFilters(fragmentMetadata || []);
+
+    filterDispatch({
+      type: 'add',
+      filters: [...filters, ...fragmentFilters],
+    });
+  }, [filterDispatch, fragmentMetadata]);
+
   const isLoading =
-    isStageMetadataLoading && isCharacterMetadataLoading && isDataLoading;
+    isStageMetadataLoading &&
+    isCharacterMetadataLoading &&
+    isFragmentMetadataLoading &&
+    isDataLoading;
 
   return (
     <>
@@ -71,7 +89,7 @@ const HomePage = () => {
       <div className={classes.root}>
         <Grid container spacing={3}>
           <Grid item lg={12}>
-            <FilterSection filters={filters} />
+            <FilterSection />
           </Grid>
           <Grid item xs={12} md={3}>
             <RankTableCard data={filteredData} isLoading={isLoading} />

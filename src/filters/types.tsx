@@ -6,4 +6,5 @@ export interface Filter {
   enabled: boolean;
   canDelete?: boolean;
   predicate: (term: SelectedCharacterBonus, data?: any) => boolean;
+  colour?: string;
 }

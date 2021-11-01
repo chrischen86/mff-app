@@ -5,14 +5,20 @@ import { Metadata, SelectedCharacterBonus } from '../../types';
 import React from 'react';
 import { MetadataContext } from '../../context/metadataContext';
 
-const filterGroups = [timeFilters, storyFilters];
-
 const filterData = (
   data: SelectedCharacterBonus[],
   filters: Filter[],
   metadata: Metadata
 ): SelectedCharacterBonus[] => {
   const enabledFilters = filters.filter((f) => f.enabled);
+  const fragmentFilters = filters.filter((f) => f.id.startsWith('fragment'));
+
+  const enabledFragmentFilters = fragmentFilters.some((f) => f.enabled);
+
+  let filterGroups = [timeFilters, storyFilters];
+  if (enabledFragmentFilters) {
+    filterGroups = [...filterGroups, fragmentFilters];
+  }
   const filteredData = data.filter((d) =>
     filterGroups.every((fg) =>
       fg
@@ -29,16 +35,20 @@ const useFilteredData = (
   filters?: Filter[]
 ): SelectedCharacterBonus[] => {
   const { state: metadata } = React.useContext(MetadataContext);
+  const [filteredData, setFilteredData] = React.useState<
+    SelectedCharacterBonus[]
+  >([]);
 
-  if (data === undefined) {
-    return [];
-  }
+  React.useEffect(() => {
+    if (data === undefined) {
+      setFilteredData([]);
+    } else if (filters === undefined || filters.length <= 0) {
+      setFilteredData(data);
+    } else {
+      setFilteredData(filterData(data, filters, metadata));
+    }
+  }, [data, filters, metadata]);
 
-  if (filters === undefined || filters.length <= 0) {
-    return data;
-  }
-
-  const filteredData = filterData(data, filters, metadata);
   return filteredData;
 };
 

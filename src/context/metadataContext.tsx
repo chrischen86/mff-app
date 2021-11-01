@@ -1,10 +1,17 @@
-import { Character, Stage, SelectedCharacterBonus, Metadata } from '../types';
+import {
+  Character,
+  Stage,
+  SelectedCharacterBonus,
+  Metadata,
+  StoryFragment,
+} from '../types';
 import createCtx from './createCtx';
 
 const initialState: Metadata = {
   stages: [],
   characters: [],
   stories: [],
+  fragments: [],
   currentMonth: undefined,
 };
 
@@ -12,6 +19,7 @@ type MetadataState = typeof initialState;
 type Action =
   | { type: 'setStages'; stages: Stage[] }
   | { type: 'setCharacters'; characters: Character[] }
+  | { type: 'setFragments'; fragments: StoryFragment[] }
   | { type: 'calculateLastMonth'; data: SelectedCharacterBonus[] };
 
 const reducer = (state: MetadataState, action: Action): MetadataState => {
@@ -25,6 +33,11 @@ const reducer = (state: MetadataState, action: Action): MetadataState => {
       return {
         ...state,
         characters: action.characters,
+      };
+    case 'setFragments':
+      return {
+        ...state,
+        fragments: action.fragments,
       };
     case 'calculateLastMonth': {
       if (action.data === undefined) {

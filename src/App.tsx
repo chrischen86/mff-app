@@ -6,7 +6,13 @@ import MetadataProvider from './context/metadataContext';
 import { ThemeProvider } from '@material-ui/core/styles';
 import theme from './theme';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 const App = () => {
   return (
