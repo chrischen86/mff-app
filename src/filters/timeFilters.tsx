@@ -13,7 +13,10 @@ const currentMonthFilter: Filter = {
         ? new Date()
         : new Date(metadata.currentMonth);
 
-    return theDate.getMonth() === current.getMonth();
+    return (
+      theDate.getMonth() === current.getMonth() &&
+      theDate.getFullYear() === current.getFullYear()
+    );
   },
 };
 export { currentMonthFilter };
