@@ -13,7 +13,7 @@ const AutoplayPage = () => {
   return (
     <>
       <Grid container spacing={3}>
-        <Grid item lg={12}>
+        <Grid item lg={8}>
           <LeaderTable data={data} />
         </Grid>
       </Grid>
