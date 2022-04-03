@@ -1,3 +1,5 @@
+import { Character, Stage } from '../types';
+
 export interface BonusesCount {
   characterName: string;
   count: number;
@@ -25,4 +27,16 @@ export interface BarItem {
 
 export interface TreemapData {
   root: TreemapItem;
+}
+
+export interface StageGroupedData {
+  stageId: number;
+  characterId1: string | null;
+  characterId2: string | null;
+  characterId3: string | null;
+
+  stage?: Stage;
+  character1?: Character;
+  character2?: Character;
+  character3?: Character;
 }
