@@ -1,11 +1,16 @@
 import { Grid } from '@material-ui/core';
 import React from 'react';
-import useCharacterBonus from '../../components/hooks/useCharacterBonus';
+import { SelectedCharacterBonus } from '../../types';
 import LeaderTable from './LeaderTable';
 import TeamSelector from './TeamSelector';
 
-const AutoplayPage = () => {
-  const { data, isLoading } = useCharacterBonus();
+const AutoplayPage = ({
+  data,
+  isLoading,
+}: {
+  data: SelectedCharacterBonus[];
+  isLoading: boolean;
+}) => {
   const [teamCharacters, setTeamCharacters] = React.useState<(string | null)[]>(
     [null, null, null]
   );
