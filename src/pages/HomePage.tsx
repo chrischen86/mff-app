@@ -1,19 +1,16 @@
-import { Grid } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import React from 'react';
+import { Route, Routes } from 'react-router-dom';
+import useCharacterBonus from '../components/hooks/useCharacterBonus';
+import useCharactersMetadata from '../components/hooks/useCharactersMetadata';
+import useFragmentMetadata from '../components/hooks/useFragmentsMetadata';
+import useStagesMetadata from '../components/hooks/useStagesMetadata';
+import SiteAppBar from '../components/SiteAppBar';
 import { FilterContext } from '../context/filterContext';
 import { MetadataContext } from '../context/metadataContext';
-//import data from './__mocks__/data.json';
 import filters, { createFragmentFilters } from '../filters';
-import FilterSection from './FilterSection';
-import GraphCard from './GraphCard';
-import useCharacterBonus from './hooks/useCharacterBonus';
-import useCharactersMetadata from './hooks/useCharactersMetadata';
-import useFilteredData from './hooks/useFilteredData';
-import useFragmentMetadata from './hooks/useFragmentsMetadata';
-import useStagesMetadata from './hooks/useStagesMetadata';
-import RankTableCard from './RankTableCard';
-import SiteAppBar from './SiteAppBar';
+import AutoplayPage from './autoplay/AutoplayPage';
+import StatsPage from './stats/StatsPage';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -25,10 +22,9 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const HomePage = () => {
-  //Contexts
+  const classes = useStyles();
   const { dispatch } = React.useContext(MetadataContext);
-  const { dispatch: filterDispatch, state: filterContext } =
-    React.useContext(FilterContext);
+  const { dispatch: filterDispatch } = React.useContext(FilterContext);
 
   //Fetch data
   const { data: stageMetadata, isLoading: isStageMetadataLoading } =
@@ -38,9 +34,6 @@ const HomePage = () => {
   const { data: fragmentMetadata, isLoading: isFragmentMetadataLoading } =
     useFragmentMetadata();
   const { data, isLoading: isDataLoading } = useCharacterBonus();
-
-  const filteredData = useFilteredData(data, filterContext.filters);
-  const classes = useStyles();
 
   React.useEffect(() => {
     dispatch({ type: 'calculateLastMonth', data });
@@ -87,17 +80,16 @@ const HomePage = () => {
     <>
       <SiteAppBar />
       <div className={classes.root}>
-        <Grid container spacing={3}>
-          <Grid item lg={12}>
-            <FilterSection />
-          </Grid>
-          <Grid item xs={12} md={3}>
-            <RankTableCard data={filteredData} isLoading={isLoading} />
-          </Grid>
-          <Grid item xs={12} md={9}>
-            <GraphCard data={filteredData} isLoading={isLoading} />
-          </Grid>
-        </Grid>
+        <Routes>
+          <Route
+            path="/"
+            element={<StatsPage data={data} isLoading={isLoading} />}
+          />
+          <Route
+            path="/autoplay"
+            element={<AutoplayPage data={data} isLoading={isLoading} />}
+          />
+        </Routes>
       </div>
     </>
   );

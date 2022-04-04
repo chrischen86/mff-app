@@ -1,7 +1,14 @@
-import { AppBar, IconButton, Toolbar, Typography } from '@material-ui/core';
+import {
+  AppBar,
+  Button,
+  IconButton,
+  Toolbar,
+  Typography,
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import React from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -13,6 +20,9 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
+  button: {
+    color: theme.palette.getContrastText(theme.palette.primary.main),
+  },
 }));
 
 const SiteAppBar = () => {
@@ -21,6 +31,25 @@ const SiteAppBar = () => {
     <AppBar position="static">
       <Toolbar>
         <Typography variant="h6" className={classes.title}></Typography>
+        <Button
+          component={RouterLink}
+          to={'/'}
+          variant={'text'}
+          className={classes.button}
+          size={'large'}
+        >
+          Stats
+        </Button>
+        <Button
+          component={RouterLink}
+          to={'/autoplay'}
+          variant={'text'}
+          className={classes.button}
+          size={'large'}
+        >
+          Autoplay
+        </Button>
+
         <IconButton
           color="inherit"
           target="_blank"
