@@ -2,9 +2,9 @@ import { StageGroupedData } from '../../components/types';
 
 const leadCalculator = (
   stageData: StageGroupedData,
-  teamCharacterId1?: string,
-  teamCharacterId2?: string,
-  teamCharacterId3?: string
+  teamCharacterId1: string | null = null,
+  teamCharacterId2: string | null = null,
+  teamCharacterId3: string | null = null
 ) => {
   let {
     characterId1: position1,

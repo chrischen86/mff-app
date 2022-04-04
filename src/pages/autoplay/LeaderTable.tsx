@@ -7,9 +7,13 @@ import {
   TableHead,
   TableRow,
 } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import clsx from 'clsx';
 import React from 'react';
 import useFilteredData from '../../components/hooks/useFilteredData';
+import useFilters from '../../components/hooks/useFilters';
 import useStageGroupedData from '../../components/hooks/useStageGroupedData';
+import TableFilterSection from '../../components/TableFilterSection';
 import TableToolbar from '../../components/TableToolbar';
 import {
   allWarFilter,
@@ -18,12 +22,10 @@ import {
   trueShieldFilter,
 } from '../../filters/storyFilters';
 import { currentMonthFilter } from '../../filters/timeFilters';
-import { SelectedCharacterBonus } from '../../types';
-import leadCalculator from './leadCalculator';
-import { makeStyles } from '@material-ui/core/styles';
-import TableFilterSection from '../../components/TableFilterSection';
-import useFilters from '../../components/hooks/useFilters';
 import { Filter } from '../../filters/types';
+import { SelectedCharacterBonus } from '../../types';
+import CharacterTextLabel from './CharacterTextLabel';
+import leadCalculator from './leadCalculator';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,12 +49,21 @@ const useStyles = makeStyles((theme) => ({
     top: 20,
     width: 1,
   },
+  leader: {
+    backgroundColor: theme.palette.primary.light,
+    color: theme.palette.getContrastText(theme.palette.primary.light),
+  },
 }));
 
 const timeFilter = { ...currentMonthFilter, hidden: true };
 
-const LeaderTable = ({ data }: { data: SelectedCharacterBonus[] }) => {
-  console.log('leaderTAble');
+const LeaderTable = ({
+  data,
+  team,
+}: {
+  data: SelectedCharacterBonus[];
+  team: (string | null)[];
+}) => {
   const classes = useStyles();
   const { filters, setFilters } = useFilters();
   const filteredData = useFilteredData(data, filters);
@@ -82,30 +93,35 @@ const LeaderTable = ({ data }: { data: SelectedCharacterBonus[] }) => {
     ]);
   };
 
-  const team = ['corvusglaive', 'professorx', 'ironfist'];
   return (
-    <>
-      <div>Team: {team.join(', ')}</div>
-      <div className={classes.root}>
-        <Paper className={classes.paper}>
-          <TableToolbar title={'Autoplay Story Leader'} />
-          <TableFilterSection
-            filters={filters}
-            onFilterClick={handleFilterClick}
-          />
-          <TableContainer>
-            <Table size={'small'}>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Stage</TableCell>
-                  <TableCell>Character 1</TableCell>
-                  <TableCell>Character 2</TableCell>
-                  <TableCell>Character 3</TableCell>
-                  <TableCell>Autoplayer Leader</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {groupedData.map((row) => (
+    <div className={classes.root}>
+      <Paper className={classes.paper}>
+        <TableToolbar title={'Autoplay Story Leader'} />
+        <TableFilterSection
+          filters={filters}
+          onFilterClick={handleFilterClick}
+        />
+        <TableContainer>
+          <Table size={'small'}>
+            <TableHead>
+              <TableRow>
+                <TableCell>Stage</TableCell>
+                <TableCell>Character 1</TableCell>
+                <TableCell>Character 2</TableCell>
+                <TableCell>Character 3</TableCell>
+                <TableCell style={{ fontWeight: 'bold' }}>Leader</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {groupedData.map((row) => {
+                const { position1: leader } = leadCalculator(
+                  row,
+                  team[0],
+                  team[1],
+                  team[2]
+                );
+
+                return (
                   <TableRow key={row.stageId}>
                     <TableCell>
                       {row.stage
@@ -121,17 +137,21 @@ const LeaderTable = ({ data }: { data: SelectedCharacterBonus[] }) => {
                     <TableCell>
                       {row.character3 ? row.character3.name : row.characterId3}
                     </TableCell>
-                    <TableCell>
-                      {leadCalculator(row, team[0], team[1], team[2]).position1}
+                    <TableCell
+                      className={clsx(
+                        row.characterId1 !== leader && classes.leader
+                      )}
+                    >
+                      <CharacterTextLabel characterId={leader} />
                     </TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Paper>
-      </div>
-    </>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Paper>
+    </div>
   );
 };
 
