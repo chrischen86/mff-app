@@ -49,7 +49,15 @@ const SiteAppBar = () => {
         >
           Autoplay
         </Button>
-
+        <Button
+          component={RouterLink}
+          to={'/manage'}
+          variant={'text'}
+          className={classes.button}
+          size={'large'}
+        >
+          Manage
+        </Button>
         <IconButton
           color="inherit"
           target="_blank"
