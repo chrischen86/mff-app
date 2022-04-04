@@ -39,8 +39,6 @@ const leadCalculator = (
     position3 = position1;
     position1 = teamCharacterId1;
   }
-
-  console.log(position1, position2, position3);
   return { position1, position2, position3 };
 };
 

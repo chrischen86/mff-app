@@ -16,9 +16,9 @@ const useToolbarStyles = makeStyles((theme) => ({
 const TableToolbar = ({ title }: { title: string }) => {
   const classes = useToolbarStyles();
   return (
-    <Toolbar>
+    <Toolbar className={classes.root}>
       <Typography
-        variant="h6"
+        variant="h5"
         id="tableTitle"
         component="div"
         className={classes.title}

@@ -11,11 +11,19 @@ import React from 'react';
 import useFilteredData from '../../components/hooks/useFilteredData';
 import useStageGroupedData from '../../components/hooks/useStageGroupedData';
 import TableToolbar from '../../components/TableToolbar';
-import { dimensionalClashdFilter } from '../../filters/storyFilters';
+import {
+  allWarFilter,
+  dimensionalClashdFilter,
+  futureEndsHereFilter,
+  trueShieldFilter,
+} from '../../filters/storyFilters';
 import { currentMonthFilter } from '../../filters/timeFilters';
 import { SelectedCharacterBonus } from '../../types';
 import leadCalculator from './leadCalculator';
 import { makeStyles } from '@material-ui/core/styles';
+import TableFilterSection from '../../components/TableFilterSection';
+import useFilters from '../../components/hooks/useFilters';
+import { Filter } from '../../filters/types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,13 +49,38 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const timeFilter = { ...currentMonthFilter, hidden: true };
+
 const LeaderTable = ({ data }: { data: SelectedCharacterBonus[] }) => {
+  console.log('leaderTAble');
   const classes = useStyles();
-  const filters = React.useMemo(() => {
-    return [currentMonthFilter, dimensionalClashdFilter];
-  }, []);
+  const { filters, setFilters } = useFilters();
   const filteredData = useFilteredData(data, filters);
   const groupedData = useStageGroupedData(filteredData);
+
+  React.useEffect(() => {
+    setFilters([
+      timeFilter,
+      dimensionalClashdFilter,
+      { ...trueShieldFilter, enabled: false },
+      { ...allWarFilter, enabled: false },
+      { ...futureEndsHereFilter, enabled: false },
+    ]);
+  }, [setFilters]);
+
+  const handleFilterClick = (filter: Filter) => {
+    setFilters([
+      timeFilter,
+      ...filters
+        .filter((f) => f.id !== timeFilter.id)
+        .map((f) => {
+          return {
+            ...f,
+            enabled: filter.id === f.id,
+          };
+        }),
+    ]);
+  };
 
   const team = ['corvusglaive', 'professorx', 'ironfist'];
   return (
@@ -56,6 +89,10 @@ const LeaderTable = ({ data }: { data: SelectedCharacterBonus[] }) => {
       <div className={classes.root}>
         <Paper className={classes.paper}>
           <TableToolbar title={'Autoplay Story Leader'} />
+          <TableFilterSection
+            filters={filters}
+            onFilterClick={handleFilterClick}
+          />
           <TableContainer>
             <Table size={'small'}>
               <TableHead>
