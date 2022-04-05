@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/mff-app/static/css/main.6dea0f05.chunk.css",
-    "main.js": "/mff-app/static/js/main.d9c45c1a.chunk.js",
-    "main.js.map": "/mff-app/static/js/main.d9c45c1a.chunk.js.map",
+    "main.js": "/mff-app/static/js/main.62f3bf91.chunk.js",
+    "main.js.map": "/mff-app/static/js/main.62f3bf91.chunk.js.map",
     "runtime-main.js": "/mff-app/static/js/runtime-main.db966494.js",
     "runtime-main.js.map": "/mff-app/static/js/runtime-main.db966494.js.map",
-    "static/js/2.cb101610.chunk.js": "/mff-app/static/js/2.cb101610.chunk.js",
-    "static/js/2.cb101610.chunk.js.map": "/mff-app/static/js/2.cb101610.chunk.js.map",
+    "static/js/2.36be55bb.chunk.js": "/mff-app/static/js/2.36be55bb.chunk.js",
+    "static/js/2.36be55bb.chunk.js.map": "/mff-app/static/js/2.36be55bb.chunk.js.map",
     "static/js/3.2919bf94.chunk.js": "/mff-app/static/js/3.2919bf94.chunk.js",
     "static/js/3.2919bf94.chunk.js.map": "/mff-app/static/js/3.2919bf94.chunk.js.map",
     "index.html": "/mff-app/index.html",
     "static/css/main.6dea0f05.chunk.css.map": "/mff-app/static/css/main.6dea0f05.chunk.css.map",
-    "static/js/2.cb101610.chunk.js.LICENSE.txt": "/mff-app/static/js/2.cb101610.chunk.js.LICENSE.txt"
+    "static/js/2.36be55bb.chunk.js.LICENSE.txt": "/mff-app/static/js/2.36be55bb.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.db966494.js",
-    "static/js/2.cb101610.chunk.js",
+    "static/js/2.36be55bb.chunk.js",
     "static/css/main.6dea0f05.chunk.css",
-    "static/js/main.d9c45c1a.chunk.js"
+    "static/js/main.62f3bf91.chunk.js"
   ]
 }
