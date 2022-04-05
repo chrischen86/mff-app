@@ -12,6 +12,8 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: theme.spacing(1),
     marginTop: theme.spacing(-1),
     minHeight: 0,
+    display: 'flex',
+    flexWrap: 'wrap',
   },
   chip: {
     margin: theme.spacing(0.5),

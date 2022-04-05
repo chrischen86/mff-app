@@ -3,6 +3,11 @@ import React from 'react';
 import { SelectedCharacterBonus } from '../../types';
 import LeaderTable from './LeaderTable';
 import TeamSelector from './TeamSelector';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { Theme } from '@material-ui/core/styles';
+import LeaderTableConcise from './LeaderTableConcise';
+
+import TeamSelectorBar from './TeamSelectorBar';
 
 const AutoplayPage = ({
   data,
@@ -11,6 +16,10 @@ const AutoplayPage = ({
   data: SelectedCharacterBonus[];
   isLoading: boolean;
 }) => {
+  const showFullTable = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.up('sm')
+  );
+
   const [teamCharacters, setTeamCharacters] = React.useState<(string | null)[]>(
     [null, null, null]
   );
@@ -25,14 +34,22 @@ const AutoplayPage = ({
 
   return (
     <>
-      <Grid container spacing={3}>
-        <Grid item lg={8}>
-          <LeaderTable data={data} team={teamCharacters} />
+      {!showFullTable && (
+        <div>
+          <LeaderTableConcise data={data} team={teamCharacters} />
+          <TeamSelectorBar onTeamChange={handleTeamChange} />
+        </div>
+      )}
+      {showFullTable && (
+        <Grid container spacing={3}>
+          <Grid item sm={12} lg={8}>
+            <LeaderTable data={data} team={teamCharacters} />
+          </Grid>
+          <Grid item sm={12} lg={4}>
+            <TeamSelector onTeamChange={handleTeamChange} />
+          </Grid>
         </Grid>
-        <Grid item lg={4}>
-          <TeamSelector onTeamChange={handleTeamChange} />
-        </Grid>
-      </Grid>
+      )}
     </>
   );
 };
