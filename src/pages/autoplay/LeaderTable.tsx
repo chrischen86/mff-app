@@ -12,6 +12,7 @@ import clsx from 'clsx';
 import React from 'react';
 import useFilteredData from '../../components/hooks/useFilteredData';
 import useFilters from '../../components/hooks/useFilters';
+import useRoster from '../../components/hooks/useRoster';
 import useStageGroupedData from '../../components/hooks/useStageGroupedData';
 import TableFilterSection from '../../components/TableFilterSection';
 import TableToolbar from '../../components/TableToolbar';
@@ -26,6 +27,7 @@ import { Filter } from '../../filters/types';
 import { SelectedCharacterBonus } from '../../types';
 import CharacterTextLabel from './CharacterTextLabel';
 import leadCalculator from './leadCalculator';
+import red from '@material-ui/core/colors/red';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,6 +55,14 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.primary.light,
     color: theme.palette.getContrastText(theme.palette.primary.light),
   },
+  unowned: {
+    backgroundColor: red[100],
+    color: theme.palette.getContrastText(red[100]),
+  },
+  unownedLabel: {
+    color: theme.palette.error.main,
+    textDecoration: 'line-through',
+  },
 }));
 
 const timeFilter = { ...currentMonthFilter, hidden: true };
@@ -68,6 +78,7 @@ const LeaderTable = ({
   const { filters, setFilters } = useFilters();
   const filteredData = useFilteredData(data, filters);
   const groupedData = useStageGroupedData(filteredData);
+  const { roster, isOwned } = useRoster();
 
   React.useEffect(() => {
     setFilters([
@@ -118,7 +129,8 @@ const LeaderTable = ({
                   row,
                   team[0],
                   team[1],
-                  team[2]
+                  team[2],
+                  roster
                 );
 
                 return (
@@ -128,21 +140,34 @@ const LeaderTable = ({
                         ? `${row.stage.stage}-${row.stage.subStage}`
                         : row.stageId}
                     </TableCell>
-                    <TableCell>
+                    <TableCell
+                      className={clsx(
+                        !isOwned(row.characterId1) && classes.unownedLabel
+                      )}
+                    >
                       {row.character1 ? row.character1.name : row.characterId1}
                     </TableCell>
-                    <TableCell>
+                    <TableCell
+                      className={clsx(
+                        !isOwned(row.characterId2) && classes.unownedLabel
+                      )}
+                    >
                       {row.character2 ? row.character2.name : row.characterId2}
                     </TableCell>
-                    <TableCell>
+                    <TableCell
+                      className={clsx(
+                        !isOwned(row.characterId3) && classes.unownedLabel
+                      )}
+                    >
                       {row.character3 ? row.character3.name : row.characterId3}
                     </TableCell>
                     <TableCell
                       className={clsx(
-                        row.characterId1 !== leader && classes.leader
+                        row.characterId1 !== leader && classes.leader,
+                        leader === null && classes.unowned
                       )}
                     >
-                      <CharacterTextLabel characterId={leader} />
+                      <CharacterTextLabel characterId={leader ?? 'LEAD'} />
                     </TableCell>
                   </TableRow>
                 );

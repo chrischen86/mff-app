@@ -1,6 +1,5 @@
-import { IconButton, Toolbar, Tooltip, Typography } from '@material-ui/core';
+import { Toolbar, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import FilterListIcon from '@material-ui/icons/FilterList';
 import React from 'react';
 
 const useToolbarStyles = makeStyles((theme) => ({
@@ -25,12 +24,6 @@ const TableToolbar = ({ title }: { title: string }) => {
       >
         {title}
       </Typography>
-
-      <Tooltip title="Filter list">
-        <IconButton>
-          <FilterListIcon />
-        </IconButton>
-      </Tooltip>
     </Toolbar>
   );
 };
