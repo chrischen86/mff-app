@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/mff-app/static/css/main.6dea0f05.chunk.css",
-    "main.js": "/mff-app/static/js/main.62f3bf91.chunk.js",
-    "main.js.map": "/mff-app/static/js/main.62f3bf91.chunk.js.map",
+    "main.js": "/mff-app/static/js/main.bbad2d07.chunk.js",
+    "main.js.map": "/mff-app/static/js/main.bbad2d07.chunk.js.map",
     "runtime-main.js": "/mff-app/static/js/runtime-main.db966494.js",
     "runtime-main.js.map": "/mff-app/static/js/runtime-main.db966494.js.map",
     "static/js/2.36be55bb.chunk.js": "/mff-app/static/js/2.36be55bb.chunk.js",
@@ -17,6 +17,6 @@
     "static/js/runtime-main.db966494.js",
     "static/js/2.36be55bb.chunk.js",
     "static/css/main.6dea0f05.chunk.css",
-    "static/js/main.62f3bf91.chunk.js"
+    "static/js/main.bbad2d07.chunk.js"
   ]
 }
