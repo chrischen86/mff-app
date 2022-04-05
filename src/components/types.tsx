@@ -40,3 +40,11 @@ export interface StageGroupedData {
   character2?: Character;
   character3?: Character;
 }
+
+interface IHash {
+  [indexer: string]: boolean;
+}
+
+export interface Roster {
+  unowned: IHash;
+}

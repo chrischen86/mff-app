@@ -10,6 +10,7 @@ import { FilterContext } from '../context/filterContext';
 import { MetadataContext } from '../context/metadataContext';
 import filters, { createFragmentFilters } from '../filters';
 import AutoplayPage from './autoplay/AutoplayPage';
+import ManagePage from './manage/ManagePage';
 import StatsPage from './stats/StatsPage';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -89,6 +90,7 @@ const HomePage = () => {
             path="/autoplay"
             element={<AutoplayPage data={data} isLoading={isLoading} />}
           />
+          <Route path="/manage" element={<ManagePage />} />
         </Routes>
       </div>
     </>
