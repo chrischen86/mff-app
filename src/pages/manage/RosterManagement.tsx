@@ -9,13 +9,10 @@ import {
   TableHead,
   TableRow,
 } from '@material-ui/core';
-import clsx from 'clsx';
 import React from 'react';
 import useRoster from '../../components/hooks/useRoster';
 import TableToolbar from '../../components/TableToolbar';
 import { Character } from '../../types';
-import CharacterTextLabel from '../autoplay/CharacterTextLabel';
-import leadCalculator from '../autoplay/leadCalculator';
 
 const useStyles = makeStyles((theme) => ({
   root: {

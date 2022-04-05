@@ -1,12 +1,5 @@
+import { Roster } from '../types';
 import useLocalStorage from './useLocalStorage';
-
-interface IHash {
-  [indexer: string]: boolean;
-}
-
-interface Roster {
-  unowned: IHash;
-}
 
 const defaultRoster: Roster = { unowned: {} };
 
@@ -28,7 +21,12 @@ const useRoster = () => {
     setRoster({ ...roster, unowned });
   };
 
-  return { roster, setOwned };
+  const isOwned = (characterId: string | null): boolean => {
+    const { unowned } = roster;
+    return !unowned.hasOwnProperty(characterId ?? '');
+  };
+
+  return { roster, setOwned, isOwned };
 };
 
 export default useRoster;
