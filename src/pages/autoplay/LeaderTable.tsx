@@ -134,7 +134,7 @@ const LeaderTable = ({
                 );
 
                 return (
-                  <TableRow key={row.stageId}>
+                  <TableRow key={row.stageId} hover>
                     <TableCell>
                       {row.stage
                         ? `${row.stage.stage}-${row.stage.subStage}`

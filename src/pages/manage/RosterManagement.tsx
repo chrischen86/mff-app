@@ -68,7 +68,7 @@ const RosterManagement = ({ characters }: { characters: Character[] }) => {
                 };
 
                 return (
-                  <TableRow key={row.id}>
+                  <TableRow key={row.id} hover>
                     <TableCell>{row.name}</TableCell>
                     <TableCell>{row.advancementType}</TableCell>
                     <TableCell>
