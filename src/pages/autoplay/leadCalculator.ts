@@ -13,21 +13,6 @@ const leadCalculator = (
     characterId3: position3,
   } = stageData;
 
-  if (roster !== undefined) {
-    const { unowned } = roster;
-    if (position1 && unowned.hasOwnProperty(position1)) {
-      position1 = teamCharacterId1;
-    }
-
-    if (position2 && unowned.hasOwnProperty(position2)) {
-      position2 = teamCharacterId2;
-    }
-
-    if (position3 && unowned.hasOwnProperty(position3)) {
-      position3 = teamCharacterId3;
-    }
-  }
-
   if (!teamCharacterId1 && !teamCharacterId2 && !teamCharacterId3) {
     return { position1, position2, position3 };
   }
@@ -55,6 +40,22 @@ const leadCalculator = (
     position3 = position1;
     position1 = teamCharacterId1;
   }
+
+  if (roster !== undefined) {
+    const { unowned } = roster;
+    if (position1 && unowned.hasOwnProperty(position1)) {
+      position1 = teamCharacterId1;
+    }
+
+    if (position2 && unowned.hasOwnProperty(position2)) {
+      position2 = teamCharacterId2;
+    }
+
+    if (position3 && unowned.hasOwnProperty(position3)) {
+      position3 = teamCharacterId3;
+    }
+  }
+
   return { position1, position2, position3 };
 };
 
