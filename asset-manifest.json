@@ -1,22 +1,26 @@
 {
   "files": {
-    "main.css": "/mff-app/static/css/main.6dea0f05.chunk.css",
-    "main.js": "/mff-app/static/js/main.7dce42b4.chunk.js",
-    "main.js.map": "/mff-app/static/js/main.7dce42b4.chunk.js.map",
-    "runtime-main.js": "/mff-app/static/js/runtime-main.69905c6a.js",
-    "runtime-main.js.map": "/mff-app/static/js/runtime-main.69905c6a.js.map",
-    "static/js/2.c3d399ac.chunk.js": "/mff-app/static/js/2.c3d399ac.chunk.js",
-    "static/js/2.c3d399ac.chunk.js.map": "/mff-app/static/js/2.c3d399ac.chunk.js.map",
-    "static/js/3.eb87d35c.chunk.js": "/mff-app/static/js/3.eb87d35c.chunk.js",
-    "static/js/3.eb87d35c.chunk.js.map": "/mff-app/static/js/3.eb87d35c.chunk.js.map",
+    "main.css": "/mff-app/static/css/main.c03bca79.chunk.css",
+    "main.js": "/mff-app/static/js/main.6983e11b.chunk.js",
+    "main.js.map": "/mff-app/static/js/main.6983e11b.chunk.js.map",
+    "runtime-main.js": "/mff-app/static/js/runtime-main.eeecafcb.js",
+    "runtime-main.js.map": "/mff-app/static/js/runtime-main.eeecafcb.js.map",
+    "static/js/2.5e6939c8.chunk.js": "/mff-app/static/js/2.5e6939c8.chunk.js",
+    "static/js/2.5e6939c8.chunk.js.map": "/mff-app/static/js/2.5e6939c8.chunk.js.map",
+    "static/js/3.ad91bd6e.chunk.js": "/mff-app/static/js/3.ad91bd6e.chunk.js",
+    "static/js/3.ad91bd6e.chunk.js.map": "/mff-app/static/js/3.ad91bd6e.chunk.js.map",
     "index.html": "/mff-app/index.html",
-    "static/css/main.6dea0f05.chunk.css.map": "/mff-app/static/css/main.6dea0f05.chunk.css.map",
-    "static/js/2.c3d399ac.chunk.js.LICENSE.txt": "/mff-app/static/js/2.c3d399ac.chunk.js.LICENSE.txt"
+    "static/css/main.c03bca79.chunk.css.map": "/mff-app/static/css/main.c03bca79.chunk.css.map",
+    "static/js/2.5e6939c8.chunk.js.LICENSE.txt": "/mff-app/static/js/2.5e6939c8.chunk.js.LICENSE.txt",
+    "static/media/energyImmune.6cf091d7.svg": "/mff-app/static/media/energyImmune.6cf091d7.svg",
+    "static/media/nonelementalImmune.1290ad5d.svg": "/mff-app/static/media/nonelementalImmune.1290ad5d.svg",
+    "static/media/physicalImmune.a3bf8575.svg": "/mff-app/static/media/physicalImmune.a3bf8575.svg",
+    "static/media/reflect.90cd2e28.svg": "/mff-app/static/media/reflect.90cd2e28.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.69905c6a.js",
-    "static/js/2.c3d399ac.chunk.js",
-    "static/css/main.6dea0f05.chunk.css",
-    "static/js/main.7dce42b4.chunk.js"
+    "static/js/runtime-main.eeecafcb.js",
+    "static/js/2.5e6939c8.chunk.js",
+    "static/css/main.c03bca79.chunk.css",
+    "static/js/main.6983e11b.chunk.js"
   ]
 }
