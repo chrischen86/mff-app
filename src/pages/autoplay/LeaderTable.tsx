@@ -7,6 +7,7 @@ import {
   TableHead,
   TableRow,
 } from '@material-ui/core';
+import red from '@material-ui/core/colors/red';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import React from 'react';
@@ -27,7 +28,7 @@ import { Filter } from '../../filters/types';
 import { SelectedCharacterBonus } from '../../types';
 import CharacterTextLabel from './CharacterTextLabel';
 import leadCalculator from './leadCalculator';
-import red from '@material-ui/core/colors/red';
+import StageBonusIcon from './StageBonusIcon';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,19 +38,14 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     marginBottom: theme.spacing(2),
   },
-  table: {
-    minWidth: 750,
+  stage: {
+    paddingLeft: 0,
   },
-  visuallyHidden: {
-    border: 0,
-    clip: 'rect(0 0 0 0)',
-    height: 1,
-    margin: -1,
-    overflow: 'hidden',
-    padding: 0,
-    position: 'absolute',
-    top: 20,
-    width: 1,
+  stageBonus: {
+    paddingRight: 0,
+    paddingTop: 0,
+    paddingBottom: 0,
+    lineHeight: 0,
   },
   leader: {
     backgroundColor: theme.palette.primary.light,
@@ -116,7 +112,8 @@ const LeaderTable = ({
           <Table size={'small'}>
             <TableHead>
               <TableRow>
-                <TableCell>Stage</TableCell>
+                <TableCell className={classes.stageBonus}></TableCell>
+                <TableCell className={classes.stage}>Stage</TableCell>
                 <TableCell>Character 1</TableCell>
                 <TableCell>Character 2</TableCell>
                 <TableCell>Character 3</TableCell>
@@ -135,7 +132,10 @@ const LeaderTable = ({
 
                 return (
                   <TableRow key={row.stageId} hover>
-                    <TableCell>
+                    <TableCell className={classes.stageBonus}>
+                      {row.stage && <StageBonusIcon stage={row.stage} />}
+                    </TableCell>
+                    <TableCell className={classes.stage}>
                       {row.stage
                         ? `${row.stage.stage}-${row.stage.subStage}`
                         : row.stageId}

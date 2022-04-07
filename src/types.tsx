@@ -10,6 +10,7 @@ export interface Stage {
   subStage: number;
   name: string;
   story: string;
+  bonus?: string[];
 }
 
 export interface Character {
