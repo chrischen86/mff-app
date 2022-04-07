@@ -7,10 +7,9 @@ import CharacterSelector from './CharacterSelector';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: '90%',
+    width: '100%',
   },
   paper: {
-    width: '100%',
     padding: theme.spacing(2),
   },
   selects: {

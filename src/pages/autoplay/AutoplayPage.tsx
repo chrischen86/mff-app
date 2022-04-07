@@ -42,10 +42,10 @@ const AutoplayPage = ({
       )}
       {showFullTable && (
         <Grid container spacing={3}>
-          <Grid item sm={12} lg={8}>
+          <Grid item sm={12} md={8}>
             <LeaderTable data={data} team={teamCharacters} />
           </Grid>
-          <Grid item sm={12} lg={4}>
+          <Grid item sm={12} md={4}>
             <TeamSelector onTeamChange={handleTeamChange} />
           </Grid>
         </Grid>
