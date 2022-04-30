@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SiteAppBar = () => {
+const SiteAppBar = ({ title = '' }: { title?: string }) => {
   const classes = useStyles();
   const showTextButtons = useMediaQuery((theme: Theme) =>
     theme.breakpoints.up('sm')
@@ -37,7 +37,9 @@ const SiteAppBar = () => {
   return (
     <AppBar position="static">
       <Toolbar>
-        <Typography variant="h6" className={classes.title}></Typography>
+        <Typography variant="h6" className={classes.title}>
+          {title}
+        </Typography>
         {!showTextButtons && (
           <>
             <IconButton

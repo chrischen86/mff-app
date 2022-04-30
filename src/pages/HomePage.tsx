@@ -1,4 +1,5 @@
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import moment from 'moment';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import useCharacterBonus from '../components/hooks/useCharacterBonus';
@@ -24,7 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const HomePage = () => {
   const classes = useStyles();
-  const { dispatch } = React.useContext(MetadataContext);
+  const { dispatch, state: metadata } = React.useContext(MetadataContext);
   const { dispatch: filterDispatch } = React.useContext(FilterContext);
 
   //Fetch data
@@ -77,9 +78,15 @@ const HomePage = () => {
     isFragmentMetadataLoading &&
     isDataLoading;
 
+  let title = '';
+  if (metadata.currentMonth) {
+    const currentDate = moment(metadata.currentMonth);
+    title = currentDate.format('MMM YYYY');
+  }
+
   return (
     <>
-      <SiteAppBar />
+      <SiteAppBar title={title} />
       <div className={classes.root}>
         <Routes>
           <Route
