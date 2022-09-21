@@ -66,9 +66,11 @@ const timeFilter = { ...currentMonthFilter, hidden: true };
 const LeaderTable = ({
   data,
   team,
+  dealer = 0,
 }: {
   data: SelectedCharacterBonus[];
   team: (string | null)[];
+  dealer: number;
 }) => {
   const classes = useStyles();
   const { filters, setFilters } = useFilters();
@@ -122,14 +124,24 @@ const LeaderTable = ({
             </TableHead>
             <TableBody>
               {groupedData.map((row) => {
-                const { position1: leader } = leadCalculator(
+                const {
+                  position1: leader,
+                  position2,
+                  position3,
+                } = leadCalculator(
                   row,
                   team[0],
                   team[1],
                   team[2],
-                  roster
+                  roster,
+                  dealer
                 );
 
+                const characterArray = [
+                  row.characterId1,
+                  row.characterId2,
+                  row.characterId3,
+                ];
                 return (
                   <TableRow key={row.stageId} hover>
                     <TableCell className={classes.stageBonus}>
@@ -163,11 +175,15 @@ const LeaderTable = ({
                     </TableCell>
                     <TableCell
                       className={clsx(
-                        row.characterId1 !== leader && classes.leader,
+                        characterArray[dealer] !== leader && classes.leader,
                         leader === null && classes.unowned
                       )}
                     >
-                      <CharacterTextLabel characterId={leader ?? 'LEAD'} />
+                      <CharacterTextLabel
+                        characterId={
+                          `${leader}, ${position2}, ${position3}` ?? 'LEAD'
+                        }
+                      />
                     </TableCell>
                   </TableRow>
                 );

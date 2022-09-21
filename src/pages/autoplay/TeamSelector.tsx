@@ -1,4 +1,4 @@
-import { Paper, Typography } from '@material-ui/core';
+import { Paper, Typography, Radio } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import { MetadataContext } from '../../context/metadataContext';
@@ -12,10 +12,16 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     padding: theme.spacing(2),
   },
+  row: {
+    display: 'flex',
+  },
   selects: {
     display: 'flex',
     flexDirection: 'column',
     gap: theme.spacing(2),
+  },
+  select: {
+    flexGrow: 1,
   },
   title: {
     paddingRight: theme.spacing(1),
@@ -23,7 +29,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const TeamSelector = ({ onTeamChange }: { onTeamChange?: Function }) => {
+const TeamSelector = ({
+  onTeamChange,
+  onDealerChange,
+  dealer = 0,
+}: {
+  onTeamChange?: Function;
+  onDealerChange?: Function;
+  dealer: number;
+}) => {
   const classes = useStyles();
   const {
     state: { characters },
@@ -45,6 +59,12 @@ const TeamSelector = ({ onTeamChange }: { onTeamChange?: Function }) => {
     }
   };
 
+  const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (onDealerChange !== undefined) {
+      onDealerChange(parseInt(event.target.value));
+    }
+  };
+
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -52,30 +72,30 @@ const TeamSelector = ({ onTeamChange }: { onTeamChange?: Function }) => {
           Team Configuration
         </Typography>
         <div className={classes.selects}>
-          <CharacterSelector
-            characters={characters}
-            label={'Lead'}
-            value={team[0]}
-            onCharacterChange={(character: Character) =>
-              handleCharacterChange(character, 0)
-            }
-          />
-          <CharacterSelector
-            characters={characters}
-            label={'2nd'}
-            value={team[1]}
-            onCharacterChange={(character: Character) =>
-              handleCharacterChange(character, 1)
-            }
-          />
-          <CharacterSelector
-            characters={characters}
-            label={'3rd'}
-            value={team[2]}
-            onCharacterChange={(character: Character) =>
-              handleCharacterChange(character, 2)
-            }
-          />
+          {['Lead', '2nd', '3rd'].map((label, index) => {
+            return (
+              <div className={classes.row} key={`${label}${index}`}>
+                <Radio
+                  checked={dealer === index}
+                  value={index}
+                  onChange={handleRadioChange}
+                  name="radio-buttons"
+                  inputProps={{ 'aria-label': `${index}` }}
+                  size={'small'}
+                />
+                <div className={classes.select}>
+                  <CharacterSelector
+                    characters={characters}
+                    label={label}
+                    value={team[index]}
+                    onCharacterChange={(character: Character) =>
+                      handleCharacterChange(character, index)
+                    }
+                  />
+                </div>
+              </div>
+            );
+          })}
         </div>
       </Paper>
     </div>

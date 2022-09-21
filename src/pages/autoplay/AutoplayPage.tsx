@@ -20,12 +20,17 @@ const AutoplayPage = ({
     theme.breakpoints.up('sm')
   );
 
+  const [selectedDealer, setSelectedDealer] = React.useState(0);
   const [teamCharacters, setTeamCharacters] = React.useState<(string | null)[]>(
     [null, null, null]
   );
 
   const handleTeamChange = (characters: string[]) => {
     setTeamCharacters(characters);
+  };
+
+  const handleDealerChange = (dealerSlot: number) => {
+    setSelectedDealer(dealerSlot);
   };
 
   if (isLoading) {
@@ -36,17 +41,33 @@ const AutoplayPage = ({
     <>
       {!showFullTable && (
         <div>
-          <LeaderTableConcise data={data} team={teamCharacters} />
-          <TeamSelectorBar onTeamChange={handleTeamChange} />
+          <LeaderTableConcise
+            data={data}
+            team={teamCharacters}
+            dealer={selectedDealer}
+          />
+          <TeamSelectorBar
+            onTeamChange={handleTeamChange}
+            onDealerChange={handleDealerChange}
+            dealer={selectedDealer}
+          />
         </div>
       )}
       {showFullTable && (
         <Grid container spacing={3}>
           <Grid item sm={12} md={8}>
-            <LeaderTable data={data} team={teamCharacters} />
+            <LeaderTable
+              data={data}
+              team={teamCharacters}
+              dealer={selectedDealer}
+            />
           </Grid>
           <Grid item sm={12} md={4}>
-            <TeamSelector onTeamChange={handleTeamChange} />
+            <TeamSelector
+              onTeamChange={handleTeamChange}
+              onDealerChange={handleDealerChange}
+              dealer={selectedDealer}
+            />
           </Grid>
         </Grid>
       )}

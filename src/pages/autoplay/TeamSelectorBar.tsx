@@ -8,6 +8,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import React from 'react';
 import { MetadataContext } from '../../context/metadataContext';
 import { Character } from '../../types';
+import useLongPress from './useLongPress';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -26,7 +27,20 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const TeamSelectorBar = ({ onTeamChange }: { onTeamChange?: Function }) => {
+const defaultOptions = {
+  shouldPreventDefault: false,
+  delay: 500,
+};
+
+const TeamSelectorBar = ({
+  onTeamChange,
+  onDealerChange,
+  dealer = 0,
+}: {
+  onTeamChange?: Function;
+  onDealerChange?: Function;
+  dealer: number;
+}) => {
   const classes = useStyles();
   const {
     state: { characters },
@@ -35,9 +49,15 @@ const TeamSelectorBar = ({ onTeamChange }: { onTeamChange?: Function }) => {
   const [currentPosition, setCurrentPosition] = React.useState(0);
   const [team, setTeam] = React.useState<(string | null)[]>([null, null, null]);
 
+  const onLongPress = (event: any) => {
+    console.log(event.target);
+    console.log('longpress is triggered');
+  };
+
   const handleActionClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
+  const longPressEvent = useLongPress(onLongPress, () => {}, defaultOptions);
 
   const handleClose = (
     event: React.MouseEvent<HTMLLIElement> | null,
@@ -71,6 +91,8 @@ const TeamSelectorBar = ({ onTeamChange }: { onTeamChange?: Function }) => {
             selected: classes.actionLabel,
             label: classes.actionLabel,
           }}
+          value={0}
+          {...longPressEvent}
         />
         <BottomNavigationAction
           label={characters.find((c) => c.id === team[1])?.name ?? '2nd'}
@@ -79,6 +101,8 @@ const TeamSelectorBar = ({ onTeamChange }: { onTeamChange?: Function }) => {
             selected: classes.actionLabel,
             label: classes.actionLabel,
           }}
+          value={1}
+          {...longPressEvent}
         />
         <BottomNavigationAction
           label={characters.find((c) => c.id === team[2])?.name ?? '3rd'}
@@ -87,6 +111,8 @@ const TeamSelectorBar = ({ onTeamChange }: { onTeamChange?: Function }) => {
             selected: classes.actionLabel,
             label: classes.actionLabel,
           }}
+          value={2}
+          {...longPressEvent}
         />
       </BottomNavigation>
       <Menu

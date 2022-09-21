@@ -60,9 +60,11 @@ const timeFilter = { ...currentMonthFilter, hidden: true };
 const LeaderTableConcise = ({
   data,
   team,
+  dealer = 0,
 }: {
   data: SelectedCharacterBonus[];
   team: (string | null)[];
+  dealer: number;
 }) => {
   const classes = useStyles();
   const { filters, setFilters } = useFilters();
