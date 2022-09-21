@@ -1,6 +1,6 @@
 import { Roster, StageGroupedData } from '../../components/types';
 
-import leadCalculator from './leadCalculator';
+import leadCalculator from './dealerCalculator';
 
 test('team matches nothing', () => {
   const data: StageGroupedData = {
@@ -412,4 +412,18 @@ test('missing position 3, team position 3 matches position 2', () => {
   expect(result.position1).toBe(data.characterId1);
   expect(result.position2).toBe(team[1]);
   expect(result.position3).toBe(data.characterId2);
+});
+
+test('team position 1 matches position 1, dealer slot 2', () => {
+  const data: StageGroupedData = {
+    stageId: 1,
+    characterId1: 'wintersoldier',
+    characterId2: 'nightcrawler',
+    characterId3: 'x23',
+  };
+  const team = ['wintersoldier', 'sentry', 'sentry'];
+  const result = leadCalculator(data, team[0], team[1], team[2], undefined, 2);
+  expect(result.position1).toBe(data.characterId2);
+  expect(result.position2).toBe(data.characterId1);
+  expect(result.position3).toBe(data.characterId3);
 });

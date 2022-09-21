@@ -27,7 +27,7 @@ import { currentMonthFilter } from '../../filters/timeFilters';
 import { Filter } from '../../filters/types';
 import { SelectedCharacterBonus } from '../../types';
 import CharacterTextLabel from './CharacterTextLabel';
-import leadCalculator from './leadCalculator';
+import leadCalculator from './dealerCalculator';
 import StageBonusIcon from './StageBonusIcon';
 
 const useStyles = makeStyles((theme) => ({

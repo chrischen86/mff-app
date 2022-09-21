@@ -32,7 +32,7 @@ import { Filter } from '../../filters/types';
 import { SelectedCharacterBonus } from '../../types';
 import CharacterAvatar from './CharacterAvatar';
 import CharacterTextLabel from './CharacterTextLabel';
-import leadCalculator from './leadCalculator';
+import leadCalculator from './dealerCalculator';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
