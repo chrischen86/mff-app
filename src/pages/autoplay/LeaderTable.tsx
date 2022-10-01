@@ -124,15 +124,9 @@ const LeaderTable = ({
             </TableHead>
             <TableBody>
               {groupedData.map((row) => {
-                const {
-                  position1: leader,
-                  position2,
-                  position3,
-                } = leadCalculator(
+                const { position1: leader } = leadCalculator(
                   row,
-                  team[0],
-                  team[1],
-                  team[2],
+                  team,
                   roster,
                   dealer
                 );
@@ -175,15 +169,11 @@ const LeaderTable = ({
                     </TableCell>
                     <TableCell
                       className={clsx(
-                        characterArray[dealer] !== leader && classes.leader,
+                        characterArray[0] !== leader && classes.leader,
                         leader === null && classes.unowned
                       )}
                     >
-                      <CharacterTextLabel
-                        characterId={
-                          `${leader}, ${position2}, ${position3}` ?? 'LEAD'
-                        }
-                      />
+                      <CharacterTextLabel characterId={leader ?? 'SLOT'} />
                     </TableCell>
                   </TableRow>
                 );

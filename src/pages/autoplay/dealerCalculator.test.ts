@@ -2,428 +2,86 @@ import { Roster, StageGroupedData } from '../../components/types';
 
 import leadCalculator from './dealerCalculator';
 
-test('team matches nothing', () => {
-  const data: StageGroupedData = {
-    stageId: 1,
-    characterId1: 'wintersoldier',
-    characterId2: 'nightcrawler',
-    characterId3: 'x23',
-  };
-  const team = ['sentry', 'sentry', 'sentry'];
-  const result = leadCalculator(data, team[0], team[1], team[2]);
-  expect(result.position1).toBe(data.characterId1);
-  expect(result.position2).toBe(data.characterId2);
-  expect(result.position3).toBe(data.characterId3);
+describe('all owned, team matches nothing', () => {
+  test.each([
+    { dealerSlot: 0, expected: 'd1' },
+    { dealerSlot: 1, expected: 'd1' },
+    { dealerSlot: 2, expected: 'd1' },
+  ])('%j', ({ dealerSlot, expected }) => {
+    const data: StageGroupedData = {
+      stageId: 1,
+      characterId1: 'd1',
+      characterId2: 'd2',
+      characterId3: 'd3',
+    };
+    const roster: Roster = { unowned: {} };
+    const team = ['t1', 't2', 't3'];
+    const result = leadCalculator(data, team, roster, dealerSlot);
+    expect(result.position1).toEqual(expected);
+  });
 });
 
-test('team position 1 matches position 1', () => {
-  const data: StageGroupedData = {
+describe('all owned, team matches 1 designated', () => {
+  const stageData: StageGroupedData = {
     stageId: 1,
-    characterId1: 'wintersoldier',
-    characterId2: 'nightcrawler',
-    characterId3: 'x23',
+    characterId1: 'd1',
+    characterId2: 'd2',
+    characterId3: 'd3',
   };
-  const team = ['wintersoldier', 'sentry', 'sentry'];
-  const result = leadCalculator(data, team[0], team[1], team[2]);
-  expect(result.position1).toBe(data.characterId1);
-  expect(result.position2).toBe(data.characterId2);
-  expect(result.position3).toBe(data.characterId3);
+  const roster: Roster = { unowned: {} };
+
+  test.each([
+    { team: ['d1', 't2', 't3'], dealerSlot: 0, expected: 'd1' },
+    { team: ['t1', 'd1', 't3'], dealerSlot: 0, expected: 'd2' },
+    { team: ['t1', 't2', 'd1'], dealerSlot: 0, expected: 'd2' },
+    { team: ['d2', 't2', 't3'], dealerSlot: 0, expected: 'd2' },
+    { team: ['t1', 'd2', 't3'], dealerSlot: 0, expected: 'd1' },
+    { team: ['t1', 't2', 'd2'], dealerSlot: 0, expected: 'd1' },
+    { team: ['d3', 't2', 't3'], dealerSlot: 0, expected: 'd3' },
+    { team: ['t1', 'd3', 't3'], dealerSlot: 0, expected: 'd1' },
+    { team: ['t1', 't2', 'd3'], dealerSlot: 0, expected: 'd1' },
+    //------
+    { team: ['d1', 't2', 't3'], dealerSlot: 1, expected: 'd2' },
+    { team: ['t1', 'd1', 't3'], dealerSlot: 1, expected: 'd1' },
+    { team: ['t1', 't2', 'd1'], dealerSlot: 1, expected: 'd2' },
+    { team: ['d2', 't2', 't3'], dealerSlot: 1, expected: 'd1' },
+    { team: ['t1', 'd2', 't3'], dealerSlot: 1, expected: 'd2' },
+    { team: ['t1', 't2', 'd2'], dealerSlot: 1, expected: 'd1' },
+    { team: ['d3', 't2', 't3'], dealerSlot: 1, expected: 'd1' },
+    { team: ['t1', 'd3', 't3'], dealerSlot: 1, expected: 'd3' },
+    { team: ['t1', 't2', 'd3'], dealerSlot: 1, expected: 'd1' },
+    //------
+    { team: ['d1', 't2', 't3'], dealerSlot: 2, expected: 'd2' },
+    { team: ['t1', 'd1', 't3'], dealerSlot: 2, expected: 'd2' },
+    { team: ['t1', 't2', 'd1'], dealerSlot: 2, expected: 'd1' },
+    { team: ['d2', 't2', 't3'], dealerSlot: 2, expected: 'd1' },
+    { team: ['t1', 'd2', 't3'], dealerSlot: 2, expected: 'd1' },
+    { team: ['t1', 't2', 'd2'], dealerSlot: 2, expected: 'd2' },
+    { team: ['d3', 't2', 't3'], dealerSlot: 2, expected: 'd1' },
+    { team: ['t1', 'd3', 't3'], dealerSlot: 2, expected: 'd1' },
+    { team: ['t1', 't2', 'd3'], dealerSlot: 2, expected: 'd3' },
+  ])('%j', ({ team, dealerSlot, expected }) => {
+    const result = leadCalculator(stageData, team, roster, dealerSlot);
+    expect(result.position1).toEqual(expected);
+  });
 });
 
-test('team position 1 matches position 2', () => {
+describe('1 missing, team matches nothing', () => {
   const data: StageGroupedData = {
     stageId: 1,
-    characterId1: 'wintersoldier',
-    characterId2: 'nightcrawler',
-    characterId3: 'x23',
+    characterId1: 'd1',
+    characterId2: 'd2',
+    characterId3: 'd3',
   };
-  const team = ['nightcrawler', 'sentry', 'sentry'];
-  const result = leadCalculator(data, team[0], team[1], team[2]);
-  expect(result.position1).toBe(data.characterId2);
-  expect(result.position2).toBe(data.characterId1);
-  expect(result.position3).toBe(data.characterId3);
-});
+  const roster: Roster = { unowned: { d1: true } };
+  const team = ['t1', 't2', 't3'];
 
-test('team position 1 matches position 3', () => {
-  const data: StageGroupedData = {
-    stageId: 1,
-    characterId1: 'wintersoldier',
-    characterId2: 'nightcrawler',
-    characterId3: 'x23',
-  };
-  const team = ['x23', 'sentry', 'sentry'];
-  const result = leadCalculator(data, team[0], team[1], team[2]);
-  expect(result.position1).toBe(data.characterId3);
-  expect(result.position2).toBe(data.characterId2);
-  expect(result.position3).toBe(data.characterId1);
-});
-
-test('team position 2 matches position 1', () => {
-  const data: StageGroupedData = {
-    stageId: 1,
-    characterId1: 'wintersoldier',
-    characterId2: 'nightcrawler',
-    characterId3: 'x23',
-  };
-  const team = ['sentry', 'wintersoldier', 'sentry'];
-  const result = leadCalculator(data, team[0], team[1], team[2]);
-  expect(result.position1).toBe(data.characterId2);
-  expect(result.position2).toBe(data.characterId1);
-  expect(result.position3).toBe(data.characterId3);
-});
-
-test('team position 2 matches position 2', () => {
-  const data: StageGroupedData = {
-    stageId: 1,
-    characterId1: 'wintersoldier',
-    characterId2: 'nightcrawler',
-    characterId3: 'x23',
-  };
-  const team = ['sentry', 'nightcrawler', 'sentry'];
-  const result = leadCalculator(data, team[0], team[1], team[2]);
-  expect(result.position1).toBe(data.characterId1);
-  expect(result.position2).toBe(data.characterId2);
-  expect(result.position3).toBe(data.characterId3);
-});
-
-test('team position 2 matches position 3', () => {
-  const data: StageGroupedData = {
-    stageId: 1,
-    characterId1: 'wintersoldier',
-    characterId2: 'nightcrawler',
-    characterId3: 'x23',
-  };
-  const team = ['sentry', 'x23', 'sentry'];
-  const result = leadCalculator(data, team[0], team[1], team[2]);
-  expect(result.position1).toBe(data.characterId1);
-  expect(result.position2).toBe(data.characterId3);
-  expect(result.position3).toBe(data.characterId2);
-});
-
-test('team position 3 matches position 1', () => {
-  const data: StageGroupedData = {
-    stageId: 1,
-    characterId1: 'wintersoldier',
-    characterId2: 'nightcrawler',
-    characterId3: 'x23',
-  };
-  const team = ['sentry', 'sentry', 'wintersoldier'];
-  const result = leadCalculator(data, team[0], team[1], team[2]);
-  expect(result.position1).toBe(data.characterId3);
-  expect(result.position2).toBe(data.characterId2);
-  expect(result.position3).toBe(data.characterId1);
-});
-
-test('team position 3 matches position 2', () => {
-  const data: StageGroupedData = {
-    stageId: 1,
-    characterId1: 'wintersoldier',
-    characterId2: 'nightcrawler',
-    characterId3: 'x23',
-  };
-  const team = ['sentry', 'sentry', 'nightcrawler'];
-  const result = leadCalculator(data, team[0], team[1], team[2]);
-  expect(result.position1).toBe(data.characterId1);
-  expect(result.position2).toBe(data.characterId3);
-  expect(result.position3).toBe(data.characterId2);
-});
-
-test('team position 3 matches position 3', () => {
-  const data: StageGroupedData = {
-    stageId: 1,
-    characterId1: 'wintersoldier',
-    characterId2: 'nightcrawler',
-    characterId3: 'x23',
-  };
-  const team = ['sentry', 'sentry', 'x23'];
-  const result = leadCalculator(data, team[0], team[1], team[2]);
-  expect(result.position1).toBe(data.characterId1);
-  expect(result.position2).toBe(data.characterId2);
-  expect(result.position3).toBe(data.characterId3);
-});
-
-test('missing lead', () => {
-  const data: StageGroupedData = {
-    stageId: 1,
-    characterId1: 'wintersoldier',
-    characterId2: 'nightcrawler',
-    characterId3: 'x23',
-  };
-  const roster: Roster = {
-    unowned: { wintersoldier: true },
-  };
-  const team = ['sentry', 'knull', 'adam'];
-  const result = leadCalculator(data, team[0], team[1], team[2], roster);
-  expect(result.position1).toBe(team[0]);
-  expect(result.position2).toBe(data.characterId2);
-  expect(result.position3).toBe(data.characterId3);
-});
-
-test('missing position 2', () => {
-  const data: StageGroupedData = {
-    stageId: 1,
-    characterId1: 'wintersoldier',
-    characterId2: 'nightcrawler',
-    characterId3: 'x23',
-  };
-  const roster: Roster = {
-    unowned: { nightcrawler: true },
-  };
-  const team = ['sentry', 'knull', 'adam'];
-  const result = leadCalculator(data, team[0], team[1], team[2], roster);
-  expect(result.position1).toBe(data.characterId1);
-  expect(result.position2).toBe(team[1]);
-  expect(result.position3).toBe(data.characterId3);
-});
-
-test('missing position 3', () => {
-  const data: StageGroupedData = {
-    stageId: 1,
-    characterId1: 'wintersoldier',
-    characterId2: 'nightcrawler',
-    characterId3: 'x23',
-  };
-  const roster: Roster = {
-    unowned: { x23: true },
-  };
-  const team = ['sentry', 'knull', 'adam'];
-  const result = leadCalculator(data, team[0], team[1], team[2], roster);
-  expect(result.position1).toBe(data.characterId1);
-  expect(result.position2).toBe(data.characterId2);
-  expect(result.position3).toBe(team[2]);
-});
-
-test('missing lead, team matches position 2 and 3', () => {
-  const data: StageGroupedData = {
-    stageId: 1,
-    characterId1: 'wintersoldier',
-    characterId2: 'nightcrawler',
-    characterId3: 'x23',
-  };
-  const roster: Roster = {
-    unowned: { wintersoldier: true },
-  };
-  const team = ['sentry', 'nightcrawler', 'x23'];
-  const result = leadCalculator(data, team[0], team[1], team[2], roster);
-  expect(result.position1).toBe(team[0]);
-  expect(result.position2).toBe(data.characterId2);
-  expect(result.position3).toBe(data.characterId3);
-});
-
-test('missing lead, team position 3 matches position 2', () => {
-  const data: StageGroupedData = {
-    stageId: 1,
-    characterId1: 'wintersoldier',
-    characterId2: 'nightcrawler',
-    characterId3: 'x23',
-  };
-  const roster: Roster = {
-    unowned: { wintersoldier: true },
-  };
-  const team = ['sentry', 'knull', 'nightcrawler'];
-  const result = leadCalculator(data, team[0], team[1], team[2], roster);
-  expect(result.position1).toBe(team[0]);
-  expect(result.position2).toBe(data.characterId3);
-  expect(result.position3).toBe(data.characterId2);
-});
-
-test('missing lead, team position 2 matches position 3', () => {
-  const data: StageGroupedData = {
-    stageId: 1,
-    characterId1: 'wintersoldier',
-    characterId2: 'nightcrawler',
-    characterId3: 'x23',
-  };
-  const roster: Roster = {
-    unowned: { wintersoldier: true },
-  };
-  const team = ['sentry', 'x23', 'adam'];
-  const result = leadCalculator(data, team[0], team[1], team[2], roster);
-  expect(result.position1).toBe(team[0]);
-  expect(result.position2).toBe(data.characterId3);
-  expect(result.position3).toBe(data.characterId2);
-});
-
-test('missing position 2, team matches position 1 and 3', () => {
-  const data: StageGroupedData = {
-    stageId: 1,
-    characterId1: 'wintersoldier',
-    characterId2: 'nightcrawler',
-    characterId3: 'x23',
-  };
-  const roster: Roster = {
-    unowned: { nightcrawler: true },
-  };
-  const team = ['wintersoldier', 'knull', 'x23'];
-  const result = leadCalculator(data, team[0], team[1], team[2], roster);
-  expect(result.position1).toBe(data.characterId1);
-  expect(result.position2).toBe(team[1]);
-  expect(result.position3).toBe(data.characterId3);
-});
-
-test('missing position 2, team position 1 matches position 3', () => {
-  const data: StageGroupedData = {
-    stageId: 1,
-    characterId1: 'wintersoldier',
-    characterId2: 'nightcrawler',
-    characterId3: 'x23',
-  };
-  const roster: Roster = {
-    unowned: { nightcrawler: true },
-  };
-  const team = ['x23', 'knull', 'adam'];
-  const result = leadCalculator(data, team[0], team[1], team[2], roster);
-  expect(result.position1).toBe(data.characterId3);
-  expect(result.position2).toBe(team[1]);
-  expect(result.position3).toBe(data.characterId1);
-});
-
-test('missing position 2, team position 3 matches position 1', () => {
-  const data: StageGroupedData = {
-    stageId: 1,
-    characterId1: 'wintersoldier',
-    characterId2: 'nightcrawler',
-    characterId3: 'x23',
-  };
-  const roster: Roster = {
-    unowned: { nightcrawler: true },
-  };
-  const team = ['sentry', 'knull', 'wintersoldier'];
-  const result = leadCalculator(data, team[0], team[1], team[2], roster);
-  expect(result.position1).toBe(data.characterId3);
-  expect(result.position2).toBe(team[1]);
-  expect(result.position3).toBe(data.characterId1);
-});
-
-test('missing position 2, team position 2 matches position 1', () => {
-  const data: StageGroupedData = {
-    stageId: 1,
-    characterId1: 'wintersoldier',
-    characterId2: 'nightcrawler',
-    characterId3: 'x23',
-  };
-  const roster: Roster = {
-    unowned: { nightcrawler: true },
-  };
-  const team = ['sentry', 'wintersoldier', 'adam'];
-  const result = leadCalculator(data, team[0], team[1], team[2], roster);
-  expect(result.position1).toBe(team[0]);
-  expect(result.position2).toBe(data.characterId1);
-  expect(result.position3).toBe(data.characterId3);
-});
-
-test('missing position 2, team position 2 matches position 3', () => {
-  const data: StageGroupedData = {
-    stageId: 1,
-    characterId1: 'wintersoldier',
-    characterId2: 'nightcrawler',
-    characterId3: 'x23',
-  };
-  const roster: Roster = {
-    unowned: { nightcrawler: true },
-  };
-  const team = ['sentry', 'x23', 'adam'];
-  const result = leadCalculator(data, team[0], team[1], team[2], roster);
-  expect(result.position1).toBe(data.characterId1);
-  expect(result.position2).toBe(data.characterId3);
-  expect(result.position3).toBe(team[2]);
-});
-
-test('missing position 3, team matches position 1 and 2', () => {
-  const data: StageGroupedData = {
-    stageId: 1,
-    characterId1: 'wintersoldier',
-    characterId2: 'nightcrawler',
-    characterId3: 'x23',
-  };
-  const roster: Roster = {
-    unowned: { x23: true },
-  };
-  const team = ['wintersoldier', 'nightcrawler', 'adam'];
-  const result = leadCalculator(data, team[0], team[1], team[2], roster);
-  expect(result.position1).toBe(data.characterId1);
-  expect(result.position2).toBe(data.characterId2);
-  expect(result.position3).toBe(team[2]);
-});
-
-test('missing position 3, team position 1 matches position 2', () => {
-  const data: StageGroupedData = {
-    stageId: 1,
-    characterId1: 'wintersoldier',
-    characterId2: 'nightcrawler',
-    characterId3: 'x23',
-  };
-  const roster: Roster = {
-    unowned: { x23: true },
-  };
-  const team = ['nightcrawler', 'knull', 'adam'];
-  const result = leadCalculator(data, team[0], team[1], team[2], roster);
-  expect(result.position1).toBe(data.characterId2);
-  expect(result.position2).toBe(data.characterId1);
-  expect(result.position3).toBe(team[2]);
-});
-
-test('missing position 3, team position 2 matches position 1', () => {
-  const data: StageGroupedData = {
-    stageId: 1,
-    characterId1: 'wintersoldier',
-    characterId2: 'nightcrawler',
-    characterId3: 'x23',
-  };
-  const roster: Roster = {
-    unowned: { x23: true },
-  };
-  const team = ['sentry', 'wintersoldier', 'adam'];
-  const result = leadCalculator(data, team[0], team[1], team[2], roster);
-  expect(result.position1).toBe(data.characterId2);
-  expect(result.position2).toBe(data.characterId1);
-  expect(result.position3).toBe(team[2]);
-});
-
-test('missing position 3, team position 3 matches position 1', () => {
-  const data: StageGroupedData = {
-    stageId: 1,
-    characterId1: 'wintersoldier',
-    characterId2: 'nightcrawler',
-    characterId3: 'x23',
-  };
-  const roster: Roster = {
-    unowned: { x23: true },
-  };
-  const team = ['sentry', 'knull', 'wintersoldier'];
-  const result = leadCalculator(data, team[0], team[1], team[2], roster);
-  expect(result.position1).toBe(team[0]);
-  expect(result.position2).toBe(data.characterId2);
-  expect(result.position3).toBe(data.characterId1);
-});
-
-test('missing position 3, team position 3 matches position 2', () => {
-  const data: StageGroupedData = {
-    stageId: 1,
-    characterId1: 'wintersoldier',
-    characterId2: 'nightcrawler',
-    characterId3: 'x23',
-  };
-  const roster: Roster = {
-    unowned: { x23: true },
-  };
-  const team = ['sentry', 'knull', 'nightcrawler'];
-  const result = leadCalculator(data, team[0], team[1], team[2], roster);
-  expect(result.position1).toBe(data.characterId1);
-  expect(result.position2).toBe(team[1]);
-  expect(result.position3).toBe(data.characterId2);
-});
-
-test('team position 1 matches position 1, dealer slot 2', () => {
-  const data: StageGroupedData = {
-    stageId: 1,
-    characterId1: 'wintersoldier',
-    characterId2: 'nightcrawler',
-    characterId3: 'x23',
-  };
-  const team = ['wintersoldier', 'sentry', 'sentry'];
-  const result = leadCalculator(data, team[0], team[1], team[2], undefined, 2);
-  expect(result.position1).toBe(data.characterId2);
-  expect(result.position2).toBe(data.characterId1);
-  expect(result.position3).toBe(data.characterId3);
+  test.each([
+    { dealerSlot: 0, expected: 't1' },
+    { dealerSlot: 1, expected: 't2' },
+    { dealerSlot: 2, expected: 't3' },
+  ])('%j', ({ dealerSlot, expected }) => {
+    const result = leadCalculator(data, team, roster, dealerSlot);
+    expect(result.position1).toEqual(expected);
+  });
 });

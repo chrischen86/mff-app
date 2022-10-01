@@ -136,13 +136,7 @@ const LeaderTableConcise = ({
             </TableHead>
             <TableBody>
               {groupedData.map((row) => {
-                const { position1: leader } = leadCalculator(
-                  row,
-                  team[0],
-                  team[1],
-                  team[2],
-                  roster
-                );
+                const { position1: leader } = leadCalculator(row, team, roster);
 
                 return (
                   <TableRow key={row.stageId} hover>

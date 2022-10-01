@@ -2,57 +2,54 @@ import { Roster, StageGroupedData } from '../../components/types';
 
 const dealerCalculator = (
   stageData: StageGroupedData,
-  teamCharacterId1: string | null = null,
-  teamCharacterId2: string | null = null,
-  teamCharacterId3: string | null = null,
+  team: (string | null)[],
   roster?: Roster,
-  dealerSlot: number = 1
+  dealerSlot: number = 0
 ) => {
   const { characterId1, characterId2, characterId3 } = stageData;
-
-  const teamArray = [teamCharacterId1, teamCharacterId2, teamCharacterId3];
   const designatedArray = [characterId1, characterId2, characterId3];
-  const slotArray = [characterId1, characterId2, characterId3];
+  const trackUsed = [characterId1, characterId2, characterId3];
 
-  //If the designated hero is already in a slot, the slot will not be changed.
-  for (let teamIndex: number = 0; teamIndex < teamArray.length; teamIndex++) {
-    const currentCharacter = teamArray[teamIndex];
-    const designatedIndex = designatedArray.indexOf(currentCharacter);
-    if (designatedIndex >= 0) {
-      slotArray[designatedIndex] = slotArray[teamIndex];
-      slotArray[teamIndex] = currentCharacter;
-    }
-  }
-
-  //Characters are substituted if not owned
+  //Any unowned characters means dealer slot character is active
   if (roster !== undefined) {
     const { unowned } = roster;
-    for (let slotIndex: number = 0; slotIndex < slotArray.length; slotIndex++) {
-      const currentCharacter = slotArray[slotIndex];
+    for (let d: number = 0; d < designatedArray.length; d++) {
+      const currentCharacter = designatedArray[d];
       if (currentCharacter && unowned.hasOwnProperty(currentCharacter)) {
-        slotArray[slotIndex] = teamArray[slotIndex];
+        return {
+          position1: team[dealerSlot] ?? null,
+          position2: null,
+          position3: null,
+        };
       }
     }
   }
 
-  if (dealerSlot === 2) {
+  // if dealer slot character is a designated character, then they are active
+  if (designatedArray.indexOf(team[dealerSlot]) >= 0) {
     return {
-      position1: slotArray[1],
-      position2: slotArray[0],
-      position3: slotArray[2],
-    };
-  } else if (dealerSlot === 3) {
-    return {
-      position1: slotArray[2],
-      position2: slotArray[1],
-      position3: slotArray[0],
+      position1: team[dealerSlot],
+      position2: null,
+      position3: null,
     };
   }
-  return {
-    position1: slotArray[0],
-    position2: slotArray[1],
-    position3: slotArray[2],
-  };
+
+  // otherwise
+  // active character is the first designated character not on team
+  for (let t: number = 0; t < team.length; t++) {
+    if (t === dealerSlot) {
+      continue;
+    }
+    const teamCharacter = team[t];
+    const designatedIndex = designatedArray.indexOf(teamCharacter);
+    if (designatedIndex >= 0) {
+      trackUsed[designatedIndex] = null;
+    }
+  }
+
+  // First non null
+  const activeCharacter = trackUsed.find((c) => c !== null) || null;
+  return { position1: activeCharacter, position2: null, position3: null };
 };
 
 export default dealerCalculator;
