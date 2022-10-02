@@ -5,10 +5,9 @@ import {
   MenuItem,
 } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import clsx from 'clsx';
 import React from 'react';
 import { MetadataContext } from '../../context/metadataContext';
-import { Character } from '../../types';
-import useLongPress from './useLongPress';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -17,8 +16,10 @@ const useStyles = makeStyles((theme: Theme) =>
       position: 'fixed',
       bottom: 0,
       backgroundColor: '#648dae',
-
       marginLeft: theme.spacing(-2),
+    },
+    dealer: {
+      backgroundColor: theme.palette.primary.main,
     },
     actionLabel: {
       color: theme.palette.getContrastText(theme.palette.primary.light),
@@ -26,11 +27,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
-
-const defaultOptions = {
-  shouldPreventDefault: false,
-  delay: 500,
-};
 
 const TeamSelectorBar = ({
   onTeamChange,
@@ -49,21 +45,22 @@ const TeamSelectorBar = ({
   const [currentPosition, setCurrentPosition] = React.useState(0);
   const [team, setTeam] = React.useState<(string | null)[]>([null, null, null]);
 
-  const onLongPress = (event: any) => {
-    console.log(event.target);
-    console.log('longpress is triggered');
-  };
-
   const handleActionClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
-  const longPressEvent = useLongPress(onLongPress, () => {}, defaultOptions);
 
   const handleClose = (
     event: React.MouseEvent<HTMLLIElement> | null,
-    character: Character | null
+    character: { id: string; name: string } | null
   ) => {
     setAnchorEl(null);
+
+    if (character && character.id === 'dealer') {
+      if (onDealerChange !== undefined) {
+        onDealerChange(currentPosition);
+      }
+      return;
+    }
 
     const updatedTeam = [...team];
     updatedTeam[currentPosition] = character ? character.id : null;
@@ -90,9 +87,9 @@ const TeamSelectorBar = ({
           classes={{
             selected: classes.actionLabel,
             label: classes.actionLabel,
+            root: clsx(dealer === 0 && classes.dealer),
           }}
           value={0}
-          {...longPressEvent}
         />
         <BottomNavigationAction
           label={characters.find((c) => c.id === team[1])?.name ?? '2nd'}
@@ -100,9 +97,9 @@ const TeamSelectorBar = ({
           classes={{
             selected: classes.actionLabel,
             label: classes.actionLabel,
+            root: clsx(dealer === 1 && classes.dealer),
           }}
           value={1}
-          {...longPressEvent}
         />
         <BottomNavigationAction
           label={characters.find((c) => c.id === team[2])?.name ?? '3rd'}
@@ -110,9 +107,9 @@ const TeamSelectorBar = ({
           classes={{
             selected: classes.actionLabel,
             label: classes.actionLabel,
+            root: clsx(dealer === 2 && classes.dealer),
           }}
           value={2}
-          {...longPressEvent}
         />
       </BottomNavigation>
       <Menu
@@ -122,16 +119,18 @@ const TeamSelectorBar = ({
         open={Boolean(anchorEl)}
         onClose={(event) => handleClose(null, null)}
       >
-        {characters.map((character) => {
-          return (
-            <MenuItem
-              key={character.id}
-              onClick={(event) => handleClose(event, character)}
-            >
-              {character.name}
-            </MenuItem>
-          );
-        })}
+        {[{ id: 'dealer', name: 'Set As Dealer' }, ...characters].map(
+          (character) => {
+            return (
+              <MenuItem
+                key={character.id}
+                onClick={(event) => handleClose(event, character)}
+              >
+                {character.name}
+              </MenuItem>
+            );
+          }
+        )}
       </Menu>
     </>
   );

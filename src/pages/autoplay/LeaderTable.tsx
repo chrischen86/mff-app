@@ -119,7 +119,7 @@ const LeaderTable = ({
                 <TableCell>Character 1</TableCell>
                 <TableCell>Character 2</TableCell>
                 <TableCell>Character 3</TableCell>
-                <TableCell style={{ fontWeight: 'bold' }}>Leader</TableCell>
+                <TableCell style={{ fontWeight: 'bold' }}>Active</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
