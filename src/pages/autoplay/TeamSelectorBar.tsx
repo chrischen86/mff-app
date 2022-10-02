@@ -5,9 +5,9 @@ import {
   MenuItem,
 } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import clsx from 'clsx';
 import React from 'react';
 import { MetadataContext } from '../../context/metadataContext';
-import { Character } from '../../types';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -16,8 +16,10 @@ const useStyles = makeStyles((theme: Theme) =>
       position: 'fixed',
       bottom: 0,
       backgroundColor: '#648dae',
-
       marginLeft: theme.spacing(-2),
+    },
+    dealer: {
+      backgroundColor: theme.palette.primary.main,
     },
     actionLabel: {
       color: theme.palette.getContrastText(theme.palette.primary.light),
@@ -26,7 +28,15 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const TeamSelectorBar = ({ onTeamChange }: { onTeamChange?: Function }) => {
+const TeamSelectorBar = ({
+  onTeamChange,
+  onDealerChange,
+  dealer = 0,
+}: {
+  onTeamChange?: Function;
+  onDealerChange?: Function;
+  dealer: number;
+}) => {
   const classes = useStyles();
   const {
     state: { characters },
@@ -41,9 +51,16 @@ const TeamSelectorBar = ({ onTeamChange }: { onTeamChange?: Function }) => {
 
   const handleClose = (
     event: React.MouseEvent<HTMLLIElement> | null,
-    character: Character | null
+    character: { id: string; name: string } | null
   ) => {
     setAnchorEl(null);
+
+    if (character && character.id === 'dealer') {
+      if (onDealerChange !== undefined) {
+        onDealerChange(currentPosition);
+      }
+      return;
+    }
 
     const updatedTeam = [...team];
     updatedTeam[currentPosition] = character ? character.id : null;
@@ -70,7 +87,9 @@ const TeamSelectorBar = ({ onTeamChange }: { onTeamChange?: Function }) => {
           classes={{
             selected: classes.actionLabel,
             label: classes.actionLabel,
+            root: clsx(dealer === 0 && classes.dealer),
           }}
+          value={0}
         />
         <BottomNavigationAction
           label={characters.find((c) => c.id === team[1])?.name ?? '2nd'}
@@ -78,7 +97,9 @@ const TeamSelectorBar = ({ onTeamChange }: { onTeamChange?: Function }) => {
           classes={{
             selected: classes.actionLabel,
             label: classes.actionLabel,
+            root: clsx(dealer === 1 && classes.dealer),
           }}
+          value={1}
         />
         <BottomNavigationAction
           label={characters.find((c) => c.id === team[2])?.name ?? '3rd'}
@@ -86,7 +107,9 @@ const TeamSelectorBar = ({ onTeamChange }: { onTeamChange?: Function }) => {
           classes={{
             selected: classes.actionLabel,
             label: classes.actionLabel,
+            root: clsx(dealer === 2 && classes.dealer),
           }}
+          value={2}
         />
       </BottomNavigation>
       <Menu
@@ -96,16 +119,18 @@ const TeamSelectorBar = ({ onTeamChange }: { onTeamChange?: Function }) => {
         open={Boolean(anchorEl)}
         onClose={(event) => handleClose(null, null)}
       >
-        {characters.map((character) => {
-          return (
-            <MenuItem
-              key={character.id}
-              onClick={(event) => handleClose(event, character)}
-            >
-              {character.name}
-            </MenuItem>
-          );
-        })}
+        {[{ id: 'dealer', name: 'Set As Dealer' }, ...characters].map(
+          (character) => {
+            return (
+              <MenuItem
+                key={character.id}
+                onClick={(event) => handleClose(event, character)}
+              >
+                {character.name}
+              </MenuItem>
+            );
+          }
+        )}
       </Menu>
     </>
   );

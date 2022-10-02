@@ -27,7 +27,7 @@ import { currentMonthFilter } from '../../filters/timeFilters';
 import { Filter } from '../../filters/types';
 import { SelectedCharacterBonus } from '../../types';
 import CharacterTextLabel from './CharacterTextLabel';
-import leadCalculator from './leadCalculator';
+import leadCalculator from './dealerCalculator';
 import StageBonusIcon from './StageBonusIcon';
 
 const useStyles = makeStyles((theme) => ({
@@ -66,9 +66,11 @@ const timeFilter = { ...currentMonthFilter, hidden: true };
 const LeaderTable = ({
   data,
   team,
+  dealer = 0,
 }: {
   data: SelectedCharacterBonus[];
   team: (string | null)[];
+  dealer: number;
 }) => {
   const classes = useStyles();
   const { filters, setFilters } = useFilters();
@@ -117,19 +119,23 @@ const LeaderTable = ({
                 <TableCell>Character 1</TableCell>
                 <TableCell>Character 2</TableCell>
                 <TableCell>Character 3</TableCell>
-                <TableCell style={{ fontWeight: 'bold' }}>Leader</TableCell>
+                <TableCell style={{ fontWeight: 'bold' }}>Active</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {groupedData.map((row) => {
                 const { position1: leader } = leadCalculator(
                   row,
-                  team[0],
-                  team[1],
-                  team[2],
-                  roster
+                  team,
+                  roster,
+                  dealer
                 );
 
+                const characterArray = [
+                  row.characterId1,
+                  row.characterId2,
+                  row.characterId3,
+                ];
                 return (
                   <TableRow key={row.stageId} hover>
                     <TableCell className={classes.stageBonus}>
@@ -163,11 +169,11 @@ const LeaderTable = ({
                     </TableCell>
                     <TableCell
                       className={clsx(
-                        row.characterId1 !== leader && classes.leader,
+                        characterArray[0] !== leader && classes.leader,
                         leader === null && classes.unowned
                       )}
                     >
-                      <CharacterTextLabel characterId={leader ?? 'LEAD'} />
+                      <CharacterTextLabel characterId={leader ?? 'SLOT'} />
                     </TableCell>
                   </TableRow>
                 );
