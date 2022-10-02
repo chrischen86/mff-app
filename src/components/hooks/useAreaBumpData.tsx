@@ -1,9 +1,15 @@
 import { SelectedCharacterBonus } from '../../types';
-import { AreaBumpInputSerie } from '@nivo/bump';
+import {
+  AreaBumpSerie,
+  AreaBumpSerieExtraProps,
+  DefaultAreaBumpDatum,
+} from '@nivo/bump';
 import useRankTableData from './useRankTableData';
 import React from 'react';
 
-const prepare = (data: SelectedCharacterBonus[]): AreaBumpInputSerie[] => {
+const prepare = (
+  data: SelectedCharacterBonus[]
+): AreaBumpSerie<DefaultAreaBumpDatum, AreaBumpSerieExtraProps>[] => {
   const uniqueDates = Array.from(new Set(data.map((d) => d.date)));
   const areaBumpData = Array.from(
     data.reduce((acc, val) => {
@@ -45,10 +51,10 @@ const prepare = (data: SelectedCharacterBonus[]): AreaBumpInputSerie[] => {
 
 const useAreaBumpData = (
   data: SelectedCharacterBonus[]
-): AreaBumpInputSerie[] => {
-  const [areaBumpData, setAreaBumpData] = React.useState<AreaBumpInputSerie[]>(
-    []
-  );
+): AreaBumpSerie<DefaultAreaBumpDatum, AreaBumpSerieExtraProps>[] => {
+  const [areaBumpData, setAreaBumpData] = React.useState<
+    AreaBumpSerie<DefaultAreaBumpDatum, AreaBumpSerieExtraProps>[]
+  >([]);
   const rankData = useRankTableData(data);
 
   React.useEffect(() => {

@@ -1,11 +1,16 @@
 import React from 'react';
-import { AreaBumpInputSerie, ResponsiveAreaBump } from '@nivo/bump';
+import {
+  AreaBumpSerie,
+  AreaBumpSerieExtraProps,
+  DefaultAreaBumpDatum,
+  ResponsiveAreaBump,
+} from '@nivo/bump';
 import moment from 'moment';
 
 const AreaBumpChart = ({
   areaBumpData,
 }: {
-  areaBumpData: AreaBumpInputSerie[];
+  areaBumpData: AreaBumpSerie<DefaultAreaBumpDatum, AreaBumpSerieExtraProps>[];
 }) => {
   return (
     <ResponsiveAreaBump
@@ -14,7 +19,7 @@ const AreaBumpChart = ({
       spacing={8}
       colors={{ scheme: 'nivo' }}
       blendMode="multiply"
-      startLabel="id"
+      startLabel={true}
       axisTop={{
         tickSize: 5,
         tickPadding: 5,

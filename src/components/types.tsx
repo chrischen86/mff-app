@@ -25,10 +25,6 @@ export interface BarItem {
   [key: string]: string | number;
 }
 
-export interface TreemapData {
-  root: TreemapItem;
-}
-
 export interface StageGroupedData {
   stageId: number;
   characterId1: string | null;
