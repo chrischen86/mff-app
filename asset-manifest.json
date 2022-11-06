@@ -1,26 +1,19 @@
 {
   "files": {
-    "main.css": "/mff-app/static/css/main.c03bca79.chunk.css",
-    "main.js": "/mff-app/static/js/main.80ab2521.chunk.js",
-    "main.js.map": "/mff-app/static/js/main.80ab2521.chunk.js.map",
-    "runtime-main.js": "/mff-app/static/js/runtime-main.dd49a2b2.js",
-    "runtime-main.js.map": "/mff-app/static/js/runtime-main.dd49a2b2.js.map",
-    "static/js/2.1942e65c.chunk.js": "/mff-app/static/js/2.1942e65c.chunk.js",
-    "static/js/2.1942e65c.chunk.js.map": "/mff-app/static/js/2.1942e65c.chunk.js.map",
-    "static/js/3.e80af167.chunk.js": "/mff-app/static/js/3.e80af167.chunk.js",
-    "static/js/3.e80af167.chunk.js.map": "/mff-app/static/js/3.e80af167.chunk.js.map",
+    "main.css": "/mff-app/static/css/main.e311c86b.css",
+    "main.js": "/mff-app/static/js/main.c3ba1aa2.js",
+    "static/js/787.6475cdec.chunk.js": "/mff-app/static/js/787.6475cdec.chunk.js",
+    "static/media/nonelementalImmune.svg": "/mff-app/static/media/nonelementalImmune.1290ad5d1c24f8a882b1455df4b98a19.svg",
     "index.html": "/mff-app/index.html",
-    "static/css/main.c03bca79.chunk.css.map": "/mff-app/static/css/main.c03bca79.chunk.css.map",
-    "static/js/2.1942e65c.chunk.js.LICENSE.txt": "/mff-app/static/js/2.1942e65c.chunk.js.LICENSE.txt",
-    "static/media/energyImmune.6cf091d7.svg": "/mff-app/static/media/energyImmune.6cf091d7.svg",
-    "static/media/nonelementalImmune.1290ad5d.svg": "/mff-app/static/media/nonelementalImmune.1290ad5d.svg",
-    "static/media/physicalImmune.a3bf8575.svg": "/mff-app/static/media/physicalImmune.a3bf8575.svg",
-    "static/media/reflect.90cd2e28.svg": "/mff-app/static/media/reflect.90cd2e28.svg"
+    "static/media/energyImmune.svg": "/mff-app/static/media/energyImmune.6cf091d7ee321823109f5f87ed20b1cd.svg",
+    "static/media/physicalImmune.svg": "/mff-app/static/media/physicalImmune.a3bf8575e4f442091f7d198beef67303.svg",
+    "static/media/reflect.svg": "/mff-app/static/media/reflect.90cd2e28d24f54c6689d9ca2fe8def8d.svg",
+    "main.e311c86b.css.map": "/mff-app/static/css/main.e311c86b.css.map",
+    "main.c3ba1aa2.js.map": "/mff-app/static/js/main.c3ba1aa2.js.map",
+    "787.6475cdec.chunk.js.map": "/mff-app/static/js/787.6475cdec.chunk.js.map"
   },
   "entrypoints": [
-    "static/js/runtime-main.dd49a2b2.js",
-    "static/js/2.1942e65c.chunk.js",
-    "static/css/main.c03bca79.chunk.css",
-    "static/js/main.80ab2521.chunk.js"
+    "static/css/main.e311c86b.css",
+    "static/js/main.c3ba1aa2.js"
   ]
 }
