@@ -1,4 +1,4 @@
-import { OwnedRoster, Roster, StageGroupedData } from '../../components/types';
+import { OwnedRoster, StageGroupedData } from '../../components/types';
 
 const dealerCalculator = (
   stageData: StageGroupedData,
