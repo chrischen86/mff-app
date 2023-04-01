@@ -1,9 +1,9 @@
-import { Roster, StageGroupedData } from '../../components/types';
+import { OwnedRoster, Roster, StageGroupedData } from '../../components/types';
 
 const dealerCalculator = (
   stageData: StageGroupedData,
   team: (string | null)[],
-  roster?: Roster,
+  roster?: OwnedRoster,
   dealerSlot: number = 0
 ) => {
   const { characterId1, characterId2, characterId3 } = stageData;
@@ -12,10 +12,10 @@ const dealerCalculator = (
 
   //Any unowned characters means dealer slot character is active
   if (roster !== undefined) {
-    const { unowned } = roster;
+    const { owned } = roster;
     for (let d: number = 0; d < designatedArray.length; d++) {
       const currentCharacter = designatedArray[d];
-      if (currentCharacter && unowned.hasOwnProperty(currentCharacter)) {
+      if (currentCharacter && !owned.hasOwnProperty(currentCharacter)) {
         return {
           position1: team[dealerSlot] ?? null,
           position2: null,

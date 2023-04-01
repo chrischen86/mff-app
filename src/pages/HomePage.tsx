@@ -5,6 +5,7 @@ import { Route, Routes } from 'react-router-dom';
 import useCharacterBonus from '../components/hooks/useCharacterBonus';
 import useCharactersMetadata from '../components/hooks/useCharactersMetadata';
 import useFragmentMetadata from '../components/hooks/useFragmentsMetadata';
+import useRosterMigration from '../components/hooks/useRosterMigration';
 import useStagesMetadata from '../components/hooks/useStagesMetadata';
 import SiteAppBar from '../components/SiteAppBar';
 import { FilterContext } from '../context/filterContext';
@@ -12,6 +13,7 @@ import { MetadataContext } from '../context/metadataContext';
 import filters, { createFragmentFilters } from '../filters';
 import AutoplayPage from './autoplay/AutoplayPage';
 import ManagePage from './manage/ManagePage';
+
 import StatsPage from './stats/StatsPage';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -27,6 +29,7 @@ const HomePage = () => {
   const classes = useStyles();
   const { dispatch, state: metadata } = React.useContext(MetadataContext);
   const { dispatch: filterDispatch } = React.useContext(FilterContext);
+  const { migrateRosterStorage } = useRosterMigration();
 
   //Fetch data
   const { data: stageMetadata, isLoading: isStageMetadataLoading } =
@@ -48,6 +51,7 @@ const HomePage = () => {
 
     if (!isCharacterMetadataLoading) {
       dispatch({ type: 'setCharacters', characters: characterMetadata });
+      migrateRosterStorage(characterMetadata);
     }
 
     if (!isFragmentMetadataLoading && fragmentMetadata) {
@@ -61,6 +65,7 @@ const HomePage = () => {
     isFragmentMetadataLoading,
     stageMetadata,
     fragmentMetadata,
+    migrateRosterStorage
   ]);
 
   React.useEffect(() => {

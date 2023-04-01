@@ -37,10 +37,14 @@ export interface StageGroupedData {
   character3?: Character;
 }
 
-interface IHash {
+export interface IHash {
   [indexer: string]: boolean;
 }
 
 export interface Roster {
   unowned: IHash;
+}
+
+export interface OwnedRoster {
+  owned: IHash;
 }

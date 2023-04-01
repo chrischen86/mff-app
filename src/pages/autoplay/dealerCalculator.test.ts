@@ -1,4 +1,4 @@
-import { Roster, StageGroupedData } from '../../components/types';
+import { OwnedRoster, StageGroupedData } from '../../components/types';
 
 import leadCalculator from './dealerCalculator';
 
@@ -14,7 +14,7 @@ describe('all owned, team matches nothing', () => {
       characterId2: 'd2',
       characterId3: 'd3',
     };
-    const roster: Roster = { unowned: {} };
+    const roster: OwnedRoster = { owned: { d1: true, d2: true, d3: true } };
     const team = ['t1', 't2', 't3'];
     const result = leadCalculator(data, team, roster, dealerSlot);
     expect(result.position1).toEqual(expected);
@@ -28,7 +28,7 @@ describe('all owned, team matches 1 designated', () => {
     characterId2: 'd2',
     characterId3: 'd3',
   };
-  const roster: Roster = { unowned: {} };
+  const roster: OwnedRoster = { owned: { d1: true, d2: true, d3: true } };
 
   test.each([
     { team: ['d1', 't2', 't3'], dealerSlot: 0, expected: 'd1' },
@@ -73,7 +73,7 @@ describe('1 missing, team matches nothing', () => {
     characterId2: 'd2',
     characterId3: 'd3',
   };
-  const roster: Roster = { unowned: { d1: true } };
+  const roster: OwnedRoster = { owned: { d2: true, d3: true } };
   const team = ['t1', 't2', 't3'];
 
   test.each([

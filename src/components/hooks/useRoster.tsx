@@ -1,29 +1,29 @@
-import { Roster } from '../types';
+import { OwnedRoster } from '../types';
 import useLocalStorage from './useLocalStorage';
 
-const defaultRoster: Roster = { unowned: {} };
+const defaultRoster: OwnedRoster = { owned: {} };
 
 const useRoster = () => {
-  const { value: roster, setValue: setRoster } = useLocalStorage<Roster>(
-    'roster',
+  const { value: roster, setValue: setRoster } = useLocalStorage<OwnedRoster>(
+    'ownedroster',
     defaultRoster
   );
 
   const setOwned = (characterId: string, isOwned: boolean = true) => {
-    const { unowned } = roster;
+    const { owned } = roster;
     if (isOwned) {
-      delete unowned[characterId];
-    } else {
-      if (!unowned.hasOwnProperty(characterId)) {
-        unowned[characterId] = true;
+      if (!owned.hasOwnProperty(characterId)) {
+        owned[characterId] = true;
       }
+    } else {
+      delete owned[characterId];
     }
-    setRoster({ ...roster, unowned });
+    setRoster({ ...roster, owned });
   };
 
   const isOwned = (characterId: string | null): boolean => {
-    const { unowned } = roster;
-    return !unowned.hasOwnProperty(characterId ?? '');
+    const { owned } = roster;
+    return owned.hasOwnProperty(characterId ?? '');
   };
 
   return { roster, setOwned, isOwned };

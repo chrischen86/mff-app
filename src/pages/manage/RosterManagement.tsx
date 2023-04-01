@@ -73,7 +73,7 @@ const RosterManagement = ({ characters }: { characters: Character[] }) => {
                     <TableCell>{row.advancementType}</TableCell>
                     <TableCell>
                       <Switch
-                        checked={!roster.unowned.hasOwnProperty(row.id)}
+                        checked={roster.owned.hasOwnProperty(row.id)}
                         onChange={handleOnChange}
                       />
                     </TableCell>
